@@ -28,9 +28,90 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="public\client.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="server.js" />
+    <Content Include="config.json">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Daten\1.json" />
+    <Content Include="Daten\10.json" />
+    <Content Include="Daten\11.json" />
+    <Content Include="Daten\12.json" />
+    <Content Include="Daten\13.json" />
+    <Content Include="Daten\14.json" />
+    <Content Include="Daten\15.json" />
+    <Content Include="Daten\16.json" />
+    <Content Include="Daten\17.json" />
+    <Content Include="Daten\18.json" />
+    <Content Include="Daten\19.json" />
+    <Content Include="Daten\2.json" />
+    <Content Include="Daten\20.json" />
+    <Content Include="Daten\21.json" />
+    <Content Include="Daten\22.json" />
+    <Content Include="Daten\23.json" />
+    <Content Include="Daten\24.json" />
+    <Content Include="Daten\25.json" />
+    <Content Include="Daten\26.json" />
+    <Content Include="Daten\27.json" />
+    <Content Include="Daten\28.json" />
+    <Content Include="Daten\29.json" />
+    <Content Include="Daten\3.json" />
+    <Content Include="Daten\30.json" />
+    <Content Include="Daten\31.json" />
+    <Content Include="Daten\32.json" />
+    <Content Include="Daten\33.json" />
+    <Content Include="Daten\34.json" />
+    <Content Include="Daten\35.json" />
+    <Content Include="Daten\36.json" />
+    <Content Include="Daten\37.json" />
+    <Content Include="Daten\38.json" />
+    <Content Include="Daten\39.json" />
+    <Content Include="Daten\4.json" />
+    <Content Include="Daten\40.json" />
+    <Content Include="Daten\41.json" />
+    <Content Include="Daten\42.json" />
+    <Content Include="Daten\43.json" />
+    <Content Include="Daten\44.json" />
+    <Content Include="Daten\45.json" />
+    <Content Include="Daten\46.json" />
+    <Content Include="Daten\47.json" />
+    <Content Include="Daten\48.json" />
+    <Content Include="Daten\49.json" />
+    <Content Include="Daten\5.json" />
+    <Content Include="Daten\50.json" />
+    <Content Include="Daten\51.json" />
+    <Content Include="Daten\52.json" />
+    <Content Include="Daten\53.json" />
+    <Content Include="Daten\54.json" />
+    <Content Include="Daten\55.json" />
+    <Content Include="Daten\56.json" />
+    <Content Include="Daten\57.json" />
+    <Content Include="Daten\58.json" />
+    <Content Include="Daten\59.json" />
+    <Content Include="Daten\6.json" />
+    <Content Include="Daten\60.json" />
+    <Content Include="Daten\61.json" />
+    <Content Include="Daten\62.json" />
+    <Content Include="Daten\63.json" />
+    <Content Include="Daten\64.json" />
+    <Content Include="Daten\65.json" />
+    <Content Include="Daten\7.json" />
+    <Content Include="Daten\8.json" />
+    <Content Include="Daten\9.json" />
     <Content Include="package.json" />
+    <Content Include="public\index.html">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="public\style.css">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Daten\" />
+    <Folder Include="public\" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />

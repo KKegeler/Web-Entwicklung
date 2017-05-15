@@ -1,8 +1,19 @@
-'use strict';
-var http = require('http');
-var port = process.env.PORT || 1337;
+var express = require('express')
+    , app = express()
+    , server = require('http').createServer(app)
+    , io = require('socket.io').listen(server)
+    , conf = require('./config.json');
 
-http.createServer(function (req, res) {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('Hello World\n');
-}).listen(port);
+server.listen(conf.port);
+
+app.use(express.static(__dirname + '/public'));
+
+// wenn der Pfad / aufgerufen wird
+app.get('/', function (req, res) {
+    // so wird die Datei index.html ausgegeben
+    res.sendfile(__dirname + '/public/index.html');
+});
+
+
+// Portnummer in die Konsole schreiben
+console.log('Der Server läuft nun unter http://127.0.0.1:' + conf.port + '/');

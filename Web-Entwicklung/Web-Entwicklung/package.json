@@ -2,8 +2,12 @@
   "name": "web-entwicklung",
   "version": "0.0.0",
   "description": "Web-Entwicklung",
-  "main": "server.js",
   "author": {
-    "name": "Kai"
+    "name": "Kai Kegeler, Lena Arnolds"
+  },
+  "dependencies": {
+    "express": "^4.15.2",
+    "googlemaps": "^1.12.0",
+    "socket.io": "^2.0.1"
   }
 }
