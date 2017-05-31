@@ -4,14 +4,28 @@
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="style.css" />
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCoLS7ZVHJNfXb8ugxiCY7iPnn0D4M8&callback=initMap">
-    </script>
+
     <script src="client.js"></script>
+
     <title>Routen</title>
 </head>
 <body>
-    <div id="map">
+    <div id="map"></div>
+
+    <script>
+        function initMap() {
+            var mapOptions = {
+                center: new google.maps.LatLng(49.751185, 6.636405),
+                zoom: 13
+            };
+            var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+        }
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqOM-iRIWZHE6f5x0wUF7fAFvCPuyKAFY&callback=initMap"></script>
+
+    <div id="list">
 
     </div>
 </body>

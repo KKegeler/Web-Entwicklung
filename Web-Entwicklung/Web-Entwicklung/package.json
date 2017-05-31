@@ -5,9 +5,19 @@
   "author": {
     "name": "Kai Kegeler, Lena Arnolds"
   },
+  "devDependencies": {
+
+  },
   "dependencies": {
     "express": "^4.15.2",
     "googlemaps": "^1.12.0",
     "socket.io": "^2.0.1"
+  },
+  "scripts": {
+    "lint": "eslint **.js",
+    "build": "",
+    "debug": "",
+    "start": "",
+    "clean": ""
   }
 }

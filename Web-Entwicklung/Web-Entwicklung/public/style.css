@@ -1,2 +1,18 @@
 ﻿body {
+    margin: 0px;
+}
+
+#map {
+    width: 70%;
+    height: 100vh;
+    background: lightgrey;
+}
+
+#list {
+    background: darkorange;
+    width: 30%;
+    height: 100%;
+    right: 0px;
+    top: 0px;
+    position: fixed;
 }
