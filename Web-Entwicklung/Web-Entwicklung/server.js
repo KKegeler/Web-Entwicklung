@@ -4,7 +4,9 @@ var server = require("http").createServer(app);
 var io = require("socket.io").listen(server);
 var conf = require("./config.json");
 
-server.listen(conf.port);
+var port = process.argv[2];
+
+server.listen(port);
 
 app.use(express.static(__dirname + "/public"));
 

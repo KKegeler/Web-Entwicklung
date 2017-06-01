@@ -6,8 +6,10 @@
     "name": "Kai Kegeler, Lena Arnolds"
   },
   "devDependencies": {
+    "babili": "^0.1.2",
     "browserify": "^14.4.0",
-    "eslint": "^3.19.0"
+    "eslint": "^3.19.0",
+    "less": "^2.7.2"
   },
   "dependencies": {
     "express": "^4.15.2",
@@ -15,11 +17,12 @@
     "socket.io": "^2.0.1"
   },
   "scripts": {
-		"lint": "eslint *.js && eslint ./public/*.js",
-		"browserify": "browserify ./public/client.js > ./public/clientB.js",
-		"debug": "npm run lint",
-		"build": "npm run lint",
-    "start": "",
+    "lint": "eslint *.js && eslint ./public/*.js",
+    "browserify": "browserify ./public/client.js > ./public/clientB.js",
+    "minify": "babili ./public/clientB.js > ./public/main.js",
+    "debug": "npm run lint && npm run browserify",
+    "build": "npm run lint && npm run browserify && npm run minify",
+    "start": "node start ./server.js",
     "clean": ""
   }
 }
