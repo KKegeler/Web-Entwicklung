@@ -6,19 +6,20 @@
     "name": "Kai Kegeler, Lena Arnolds"
   },
   "devDependencies": {
-    "browserify": "^14.4.0",
-    "eslint": "^3.19.0"
+    "browserify": "latest",
+    "eslint": "latest",
+    "less": "latest"
   },
   "dependencies": {
-    "express": "^4.15.2",
-    "googlemaps": "^1.12.0",
-    "socket.io": "^2.0.1"
+    "express": "latest",
+    "googlemaps": "latest",
+    "socket.io": "latest"
   },
   "scripts": {
-		"lint": "eslint *.js && eslint ./public/*.js",
-		"browserify": "browserify ./public/client.js > ./public/clientB.js",
-		"debug": "npm run lint",
-		"build": "npm run lint",
+    "lint": "eslint ./server.js && eslint ./public/client.js",
+    "browserify": "browserify ./public/client.js > ./public/clientB.js",
+    "debug": "npm run lint",
+    "build": "npm run lint",
     "start": "",
     "clean": ""
   }
