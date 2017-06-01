@@ -18,6 +18,7 @@
   "scripts": {
     "lint": "eslint ./server.js && eslint ./public/client.js",
     "browserify": "browserify ./public/client.js > ./public/clientB.js",
+    "lessc": "lessc --clean-css ./public/style.less ./public/style.min.css",
     "debug": "npm run lint",
     "build": "npm run lint",
     "start": "",
