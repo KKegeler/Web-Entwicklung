@@ -9,7 +9,8 @@
     "babili": "latest",
     "browserify": "latest",
     "eslint": "latest",
-    "less": "latest"
+    "less": "latest",
+    "less-plugin-clean-css": "^1.5.1"
   },
   "dependencies": {
     "express": "latest",
@@ -22,8 +23,8 @@
     "minify": "babili ./public/clientB.js > ./public/main.js",
     "lessc": "lessc --clean-css ./public/style.less ./public/style.min.css",
     "debug": "npm run lint && npm run browserify",
-    "build": "npm run lint && npm run browserify && npm run minify && npm run lessc",
-    "start": "node start ./server.js",
+    "build": "npm run browserify && npm run minify && npm run lessc",
+    "start": "node ./server.js",
     "clean": ""
   }
 }

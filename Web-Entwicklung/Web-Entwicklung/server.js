@@ -2,7 +2,6 @@ var express = require("express");
 var app = express();
 var server = require("http").createServer(app);
 var io = require("socket.io").listen(server);
-var conf = require("./config.json");
 
 var port = process.argv[2];
 
@@ -17,4 +16,4 @@ app.get("/", function (req, res) {
 });
 
 // Portnummer in die Konsole schreiben
-console.log("Der Server laeuft nun unter http://127.0.0.1:" + conf.port + "/");
+console.log("Der Server laeuft nun unter http://127.0.0.1:" + port + "/");
