@@ -6,7 +6,8 @@
     "name": "Kai Kegeler, Lena Arnolds"
   },
   "devDependencies": {
-
+    "browserify": "^14.4.0",
+    "eslint": "^3.19.0"
   },
   "dependencies": {
     "express": "^4.15.2",
@@ -14,9 +15,10 @@
     "socket.io": "^2.0.1"
   },
   "scripts": {
-    "lint": "eslint **.js",
-    "build": "",
-    "debug": "",
+		"lint": "eslint *.js && eslint ./public/*.js",
+		"browserify": "browserify ./public/client.js > ./public/clientB.js",
+		"debug": "npm run lint",
+		"build": "npm run lint",
     "start": "",
     "clean": ""
   }
