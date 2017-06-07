@@ -33,9 +33,6 @@
     </Compile>
     <Compile Include="server.js" />
     <Content Include=".eslintrc.json" />
-    <Content Include="config.json">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="Daten\1.json" />
     <Content Include="Daten\10.json" />
     <Content Include="Daten\11.json" />
