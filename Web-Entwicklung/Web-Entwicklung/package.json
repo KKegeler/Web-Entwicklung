@@ -19,12 +19,13 @@
   },
   "scripts": {
     "lint": "eslint ./server.js && eslint ./public/client.js",
-    "browserify": "browserify ./public/client.js > ./public/clientB.js",
-    "minify": "babili ./public/clientB.js > ./public/main.js",
-    "lessc": "lessc --clean-css ./public/style.less ./public/style.min.css",
+    "browserify": "browserify ./public/client.js > ./public/generated/clientB.js",
+    "minify": "babili ./public/generated/clientB.js > ./public/generated/main.js",
+    "lessc": "lessc --clean-css ./public/style.less ./public/generated/style.min.css",
+    "generate": "cd public && if not exist generated md generated",
+    "build": "npm run generate && npm run browserify && npm run minify && npm run lessc",
     "debug": "npm run lint && npm run browserify",
-    "build": "npm run browserify && npm run minify && npm run lessc",
     "start": "node ./server.js",
-    "clean": ""
+    "clean": "del public\\generated\\* /q"
   }
 }
