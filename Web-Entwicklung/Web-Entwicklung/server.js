@@ -15,12 +15,12 @@ else {
 	portnummer = 8080;
 }
 
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + "/public/generated"));
 
 // wenn der Pfad / aufgerufen wird
 app.get("/", function (req, res) {
 	//so wird die Datei index.html ausgegeben
-	res.sendfile(__dirname + "/public/index.html");
+	res.sendfile(__dirname + "/public/generated/index.html");
 });
 
 // Portnummer in die Konsole schreiben
