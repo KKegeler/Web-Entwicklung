@@ -21,12 +21,12 @@ else {
 	portnummer = 8080;
 }
 //Liefert statische Dateien aus Ordner public
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + "/public/generated"));
 
 //Wenn der Pfad / aufgerufen wird
 app.get("/", function (req, res) {
 	//So wird die Datei index.html ausgegeben
-	res.sendfile(__dirname + "/public/index.html");
+	res.sendfile(__dirname + "/public/generated/index.html");
 });
 
 //Portnummer in die Konsole schreiben
