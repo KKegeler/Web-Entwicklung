@@ -12,11 +12,12 @@
     "less": "latest",
     "less-plugin-clean-css": "latest"
   },
-  "dependencies": {
-    "express": "latest",
-    "googlemaps": "latest",
-    "socket.io": "latest"
-  },
+	"dependencies": {
+		"express": "latest",
+		"google-maps": "latest",
+		"googlemaps": "latest",
+		"socket.io": "latest"
+	},
   "scripts": {
     "lint": "eslint ./server.js && eslint ./public/client.js",
     "browserify": "browserify ./public/client.js > ./public/generated/clientB.js",
