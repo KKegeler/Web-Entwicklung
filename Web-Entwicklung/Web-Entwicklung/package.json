@@ -10,7 +10,7 @@
     "browserify": "latest",
     "eslint": "latest",
     "less": "latest",
-    "less-plugin-clean-css": "^1.5.1"
+    "less-plugin-clean-css": "latest"
   },
   "dependencies": {
     "express": "latest",
