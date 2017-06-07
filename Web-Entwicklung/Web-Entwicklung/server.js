@@ -6,15 +6,14 @@ var io = require("socket.io").listen(server);
 var port = process.argv[2];
 var portnummer;
 
-if (typeof port !== "undefined")
-{
+if (typeof port !== "undefined") {
 	server.listen(port);
 	portnummer = port;
-} else {
+}
+else {
 	server.listen(8080);
 	portnummer = 8080;
 }
-
 
 app.use(express.static(__dirname + "/public"));
 
