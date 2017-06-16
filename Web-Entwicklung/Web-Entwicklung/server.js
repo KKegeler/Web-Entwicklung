@@ -1,6 +1,6 @@
 //Express einbinden
 var express = require("express");
-var app = express();
+var app = express(); //express server Objekt Instanz
 //Server erstellen
 var server = require("http").createServer(app);
 //Socket.io einbinden und auf Verbindungen warten
