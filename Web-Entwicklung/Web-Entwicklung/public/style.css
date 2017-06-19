@@ -3,7 +3,7 @@ body {
 }
 #map {
   width: 70%;
-  height: 100vh;
+  height: 100%;
   
 }
 #list {
@@ -13,4 +13,13 @@ body {
   right: 0px;
   top: 0px;
   position: fixed;
+}
+
+#flex-container{
+  display: flex;
+  display: -webkit-flex;
+
+}
+#flex-item{
+
 }
