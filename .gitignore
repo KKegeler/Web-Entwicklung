@@ -259,3 +259,5 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+Web-Entwicklung/Web-Entwicklung/public/generated/index.html
+Web-Entwicklung/Web-Entwicklung/public/generated/mainB.js
