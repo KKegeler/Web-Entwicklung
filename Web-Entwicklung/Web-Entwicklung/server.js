@@ -31,16 +31,17 @@ app.get("/", function (req, res) {
 	
 });
 
-app.get("/tracks", function (req, res) {
-	var i = 0;
-	fs.readdir("./Daten", function (err, files) {
-		files.forEach(function (file) {
-			var jsonDatei = require("./Daten/" + file);
-			var name = jsonDatei.features[0].properties.name;
-			
-			i++;
-		});
+app.get("/tracklist", function (req, res) {
+	var names = [];
+	var files = fs.readdirSync("./Daten");
+	files.forEach(function (file) {
+		var jsonDatei = require("./Daten/" + file);
+		var name = jsonDatei.features[0].properties.name;
+		names.push(name);
 	});
+	console.dir(names);
+	res.json(names);
+	res.end();
 });
 
 //Portnummer in die Konsole schreiben
