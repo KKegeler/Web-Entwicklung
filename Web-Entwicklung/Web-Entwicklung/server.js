@@ -5,6 +5,7 @@ var app = express(); //express server Objekt Instanz
 var server = require("http").createServer(app);
 //Socket.io einbinden und auf Verbindungen warten
 var io = require("socket.io").listen(server);
+var fs = require("fs");
 
 //Mitgegebenes Argument einlesen
 var port = process.argv[2];
@@ -27,7 +28,22 @@ app.use(express.static(__dirname + "/public/generated"));
 app.get("/", function (req, res) {
 	//So wird die Datei index.html ausgegeben
 	res.sendfile(__dirname + "/public/generated/index.html");
+	
+});
+
+app.get("/tracks", function (req, res) {
+	var i = 0;
+	fs.readdir("./Daten", function (err, files) {
+		files.forEach(function (file) {
+			var jsonDatei = require("./Daten/" + file);
+			var name = jsonDatei.features[0].properties.name;
+			
+			i++;
+		});
+	});
 });
 
 //Portnummer in die Konsole schreiben
 console.log("Der Server laeuft nun unter http://127.0.0.1:" + portnummer + "/");
+
+	
