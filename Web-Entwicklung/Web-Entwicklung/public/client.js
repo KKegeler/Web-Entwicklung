@@ -1,5 +1,6 @@
 ﻿//npm modul google-maps einbinden (Wrapper für Google Maps API)
 var map;
+var list = document.getElementById("list");
 var GoogleMapsLoader = require("google-maps");
 //API-Key setzen
 GoogleMapsLoader.KEY = "AIzaSyAqOM-iRIWZHE6f5x0wUF7fAFvCPuyKAFY";
@@ -34,3 +35,32 @@ GoogleMapsLoader.onLoad(function (google) {
 		window.alert("Resize triggered!");
 	});
 });*/
+
+function createNode(element) {
+	return document.createElement(element);
+}
+
+function append(parent, el) {
+	return parent.appendChild(el);
+}
+
+fetch("http://localhost:8080/tracklist").then(response => {
+	if (response.ok) {
+		return response.json();
+	}
+}).then(result => {
+	fuelleListe(result);
+}).catch(error => {
+	console.error(error.message);
+	});
+
+function fuelleListe(names) {
+	console.dir("Namen" + names);
+	names.forEach(function (name) {
+		let li = createNode('li');
+		append(list, li);
+		append(li, name);
+	})
+}
+
+	

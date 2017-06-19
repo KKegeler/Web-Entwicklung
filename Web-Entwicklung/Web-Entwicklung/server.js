@@ -28,7 +28,6 @@ app.use(express.static(__dirname + "/public/generated"));
 app.get("/", function (req, res) {
 	//So wird die Datei index.html ausgegeben
 	res.sendfile(__dirname + "/public/generated/index.html");
-	
 });
 
 app.get("/tracklist", function (req, res) {
@@ -46,5 +45,3 @@ app.get("/tracklist", function (req, res) {
 
 //Portnummer in die Konsole schreiben
 console.log("Der Server laeuft nun unter http://127.0.0.1:" + portnummer + "/");
-
-	
