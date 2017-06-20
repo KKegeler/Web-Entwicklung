@@ -261,3 +261,5 @@ __pycache__/
 *.pyc
 Web-Entwicklung/Web-Entwicklung/public/generated/index.html
 Web-Entwicklung/Web-Entwicklung/public/generated/mainB.js
+Web-Entwicklung/Web-Entwicklung/public/generated/main.js
+Web-Entwicklung/Web-Entwicklung/public/generated/style.min.css

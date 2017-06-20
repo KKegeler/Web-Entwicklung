@@ -53,19 +53,36 @@ fetch("http://localhost:8080/tracklist").then(response => {
 		return null;
 	}
 }).then(result => {
+	console.dir(result);
 	fuelleListe(result);
 }).catch(error => {
 	console.error(error.message);
 });
 //Client bekommt Trackliste und erstellt die Liste
-function fuelleListe(names) {
-	console.dir("Namen" + names);
-	names.forEach(function (name) {
+function fuelleListe(obj) {
+	for (var i = 0; i < obj.names.length; i++) {
 		let li = createNode("li");
-		li.innerHTML = name;
+		li.innerHTML = obj.names[i];
+		li.setAttribute("ID", "" + obj.ids[i]);
 		append(list, li);
-	});
+	}
 	list.onclick = function (event) {
-
+		var geklickteId = event.target.getAttribute("id");
+		fetch("http://localhost:8080/tracklist/" + geklickteId).then(response => {
+			if (response.ok) {
+				return response.json();
+			}
+			else {
+				return null;
+			}
+		}).then(result => {
+				makeCoordinaten(result);
+		}).catch(error => {
+				console.error(error.message);
+		})
 	};
+}
+
+function makeCoordinaten(coords){
+	console.dir(coords);
 }

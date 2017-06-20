@@ -33,14 +33,34 @@ app.get("/", function (req, res) {
 //Wenn /tracklist aufgerufen wird alle Dateien im Ordner durchgehen und die Tracknamen zurückliefern
 app.get("/tracklist", function (req, res) {
 	var names = [];
+	var ids = [];
 	var files = fs.readdirSync("./Daten");
 	files.forEach(function (file) {
-		var jsonDatei = require("./Daten/" + file);
+		let jsonDatei = require("./Daten/" + file);
 		var name = jsonDatei.features[0].properties.name;
+		var bis = file.indexOf(".");
+		var id = file.slice(0, bis);
 		names.push(name);
+		ids.push(id);
 	});
-	res.json(names);
+
+	var obj = { names, ids };
+	console.dir(obj);
+	res.json(obj);
 	res.end();
+});
+
+app.get("/tracklist/:id", function (req, res) {
+	console.log("ID angekommen" + req.params.id);
+	let jsonDatei = require("./Daten/" + req.params.id + ".json");
+	var coordinates = [];
+	
+	for (let i = 0; i < jsonDatei.features[0].geometry.coordinates.length; i++) {
+		
+		coordinates.push(jsonDatei.features[0].geometry.coordinates[i][0]);
+		coordinates.push(jsonDatei.features[0].geometry.coordinates[i][1]);
+	}
+	res.json(coordinates);
 });
 
 //Portnummer in die Konsole schreiben
