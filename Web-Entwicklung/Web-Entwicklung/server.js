@@ -30,6 +30,7 @@ app.get("/", function (req, res) {
 	res.sendfile(__dirname + "/public/generated/index.html");
 });
 
+//Wenn /tracklist aufgerufen wird alle Dateien im Ordner durchgehen und die Tracknamen zurückliefern
 app.get("/tracklist", function (req, res) {
 	var names = [];
 	var files = fs.readdirSync("./Daten");
@@ -38,7 +39,6 @@ app.get("/tracklist", function (req, res) {
 		var name = jsonDatei.features[0].properties.name;
 		names.push(name);
 	});
-	console.dir(names);
 	res.json(names);
 	res.end();
 });
