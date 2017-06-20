@@ -1,5 +1,6 @@
 ﻿//npm modul google-maps einbinden (Wrapper für Google Maps API)
 var map;
+var poly;
 var list = document.getElementById("list");
 var GoogleMapsLoader = require("google-maps");
 //API-Key setzen
@@ -85,4 +86,19 @@ function fuelleListe(obj) {
 
 function makeCoordinaten(coords){
 	console.dir(coords);
+	var path = [];
+	var koordinaten = coords;
+	//console.log("TestVariable: " + typeof())
+	GoogleMapsLoader.load(function (google) {
+		var polyline = new google.maps.Polyline({strokeColor: "#FF0000", strokeOpacity: 1.0, strokeWeight: 2 });
+		for (let j = 0; j < koordinaten.length; j++) {
+			path.push(new google.maps.LatLng(koordinaten[j][0], koordinaten[j][1]));
+		}
+		
+		polyline.setPath(path);
+		polyline.setMap(null);
+		polyline.setMap(map);
+
+	});
+
 }

@@ -45,20 +45,19 @@ app.get("/tracklist", function (req, res) {
 	});
 
 	var obj = { names, ids };
-	console.dir(obj);
+	//console.dir(obj);
 	res.json(obj);
 	res.end();
 });
 
 app.get("/tracklist/:id", function (req, res) {
-	console.log("ID angekommen" + req.params.id);
+	//console.log("ID angekommen" + req.params.id);
 	let jsonDatei = require("./Daten/" + req.params.id + ".json");
 	var coordinates = [];
 	
 	for (let i = 0; i < jsonDatei.features[0].geometry.coordinates.length; i++) {
-		
-		coordinates.push(jsonDatei.features[0].geometry.coordinates[i][0]);
-		coordinates.push(jsonDatei.features[0].geometry.coordinates[i][1]);
+		var coordPunkt = [jsonDatei.features[0].geometry.coordinates[i][1], jsonDatei.features[0].geometry.coordinates[i][0]];
+		coordinates.push(coordPunkt);
 	}
 	res.json(coordinates);
 });
