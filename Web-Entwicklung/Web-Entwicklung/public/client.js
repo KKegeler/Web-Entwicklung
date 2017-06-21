@@ -1,6 +1,6 @@
 ﻿//npm modul google-maps einbinden (Wrapper für Google Maps API)
 var map;
-var poly;
+var polyline;
 var list = document.getElementById("list");
 var GoogleMapsLoader = require("google-maps");
 //API-Key setzen
@@ -17,6 +17,7 @@ GoogleMapsLoader.load(function (google) {
 	};
 	//Map erstellen und in div Element einfügen
 	map = new google.maps.Map(document.getElementById("map"), mapOptions);
+	polyline = new google.maps.Polyline({ strokeColor: "#FF0000", strokeOpacity: 1.0, strokeWeight: 2 });
 });
 
 /*
@@ -54,7 +55,6 @@ fetch("http://localhost:8080/tracklist").then(response => {
 		return null;
 	}
 }).then(result => {
-	console.dir(result);
 	fuelleListe(result);
 }).catch(error => {
 	console.error(error.message);
@@ -67,6 +67,7 @@ function fuelleListe(obj) {
 		li.setAttribute("ID", "" + obj.ids[i]);
 		append(list, li);
 	}
+	//OnClick wird an die Liste angehangen,client stellt wieder anfrage nach dem speziellen track
 	list.onclick = function (event) {
 		var geklickteId = event.target.getAttribute("id");
 		fetch("http://localhost:8080/tracklist/" + geklickteId).then(response => {
@@ -77,28 +78,25 @@ function fuelleListe(obj) {
 				return null;
 			}
 		}).then(result => {
-				makeCoordinaten(result);
+			makeCoordinaten(result);
 		}).catch(error => {
-				console.error(error.message);
-		})
+			console.error(error.message);
+		});
 	};
 }
-
-function makeCoordinaten(coords){
-	console.dir(coords);
+//Client bekommt Koordinaten des Tracks zurück und setzt den Pfad der Polyline und die Grenzen
+function makeCoordinaten(coords) {
 	var path = [];
 	var koordinaten = coords;
 	//console.log("TestVariable: " + typeof())
 	GoogleMapsLoader.load(function (google) {
-		var polyline = new google.maps.Polyline({strokeColor: "#FF0000", strokeOpacity: 1.0, strokeWeight: 2 });
+		var bounds = new google.maps.LatLngBounds();
 		for (let j = 0; j < koordinaten.length; j++) {
 			path.push(new google.maps.LatLng(koordinaten[j][0], koordinaten[j][1]));
+			bounds.extend(new google.maps.LatLng(koordinaten[j][0], koordinaten[j][1]));
 		}
-		
 		polyline.setPath(path);
-		polyline.setMap(null);
 		polyline.setMap(map);
-
+		map.fitBounds(bounds);
 	});
-
 }

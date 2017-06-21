@@ -27,7 +27,7 @@
 		"rename": "ren \".\\public\\generated\\main.js\" \"mainB.js",
 		"del-mainB": "del .\\public\\generated\\mainB.js",
 		"generate": "cd public && if not exist generated md generated",
-		"build": "npm run generate && npm run copy && npm run browserify && npm run del-mainB && npm run rename && npm run minify && npm run lessc",
+		"build": "npm run lint && npm run generate && npm run copy && npm run browserify && npm run del-mainB && npm run rename && npm run minify && npm run lessc",
 		"debug": "npm run lint && npm run generate && npm run copy && npm run browserify",
 		"start": "node ./server.js",
 		"clean": "del public\\generated\\* /q && cd public && rmdir generated && cd .. && rmdir /q /s node_modules"
