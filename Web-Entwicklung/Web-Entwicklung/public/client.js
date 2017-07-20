@@ -6,6 +6,7 @@ var list = document.getElementById("list");
 var GoogleMapsLoader = require("google-maps");
 var paginationdiv = document.getElementById("pagination");
 var paginaton = require("pagination");
+var url = document.URL;
 //API-Key setzen
 GoogleMapsLoader.KEY = "AIzaSyAqOM-iRIWZHE6f5x0wUF7fAFvCPuyKAFY";
 
@@ -50,7 +51,7 @@ function append(parent, el) {
 	return parent.appendChild(el);
 }
 //Client stellt beim Webseite starten anfrage an den Server für die Trackliste
-fetch("http://localhost:8080/tracklist").then(response => {
+fetch(url + "tracklist").then(response => {
 	if (response.ok) {
 		return response.json();
 	}
@@ -130,8 +131,8 @@ function fuelleListe(obj) {
 	//OnClick wird an die Liste angehangen,client stellt wieder anfrage nach dem speziellen track
 	list.onclick = function (event) {
 		var geklickteId = event.target.getAttribute("id");
-		let url = document.URL;
-		fetch("http://localhost:8080/tracklist/" + geklickteId).then(response => {
+		
+		fetch(url + "tracklist/" + geklickteId).then(response => {
 			if (response.ok) {
 				return response.json();
 			}
