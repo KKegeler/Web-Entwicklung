@@ -1,8 +1,11 @@
 ﻿//npm modul google-maps einbinden (Wrapper für Google Maps API)
 var map;
 var polyline;
+var eintraegeProSeite;
 var list = document.getElementById("list");
 var GoogleMapsLoader = require("google-maps");
+var paginationdiv = document.getElementById("pagination");
+var paginaton = require("pagination");
 //API-Key setzen
 GoogleMapsLoader.KEY = "AIzaSyAqOM-iRIWZHE6f5x0wUF7fAFvCPuyKAFY";
 
@@ -58,7 +61,63 @@ fetch("http://localhost:8080/tracklist").then(response => {
 	fuelleListe(result);
 }).catch(error => {
 	console.error(error.message);
-});
+	});
+
+function paginate() {
+	let browserhöhe = document.documentElement.clientHeight;
+	var currentPage = 1;
+	let seiten = Math.round(browserhöhe / eintraegeProSeite);
+	console.log("Seiten: " + seiten);
+	for (var i = 0; i <= seiten; i++) {
+		let a = createNode("a");
+		a.innerHTML = i + 1;
+		a.setAttribute("class", "" + (i + 1));
+		append(paginationdiv, a);
+	}
+
+	let children = list.childNodes;
+	for (let v = 1; v < children.length; v++) {
+		//let id = children.
+		let id = children[v].getAttribute("id");
+		let elem = document.getElementById(id);
+		if (v > eintraegeProSeite) {
+			elem.style.display = 'none';
+			//elemente ausblenden
+		} else {
+			elem.style.display = 'block';
+		}
+	}
+
+	paginationdiv.onclick = function (event) {
+		let seitenid = event.target.getAttribute("class");
+		let vorherigeSeite = seitenid - 1;
+		let von = eintraegeProSeite * vorherigeSeite + 1;
+		let bis = seitenid * eintraegeProSeite;
+		let childs = list.childNodes;
+		for (let i = 1; i< childs.length; i++) {
+			let Id = childs[i].getAttribute("id");
+			document.getElementById(Id).style.display = 'none';
+		}
+
+		for (let i = von; i < bis; i++) {
+			let id = childs[i].getAttribute("id");
+			document.getElementById(id).style.display = 'block';
+			
+		}
+
+	}
+
+}
+
+function eintraegeProSeiteBerechnen() {
+	let browserhöhe = document.documentElement.clientHeight;
+	let neueeintraege = Math.round((browserhöhe / 2) / 10);
+	eintraegeProSeite = neueeintraege;
+	console.log("EintraegeProSeite: " + eintraegeProSeite);
+	paginate();
+}
+
+window.onresize = eintraegeProSeiteBerechnen;
 //Client bekommt Trackliste und erstellt die Liste
 function fuelleListe(obj) {
 	for (var i = 0; i < obj.names.length; i++) {
@@ -67,9 +126,11 @@ function fuelleListe(obj) {
 		li.setAttribute("ID", "" + obj.ids[i]);
 		append(list, li);
 	}
+	eintraegeProSeiteBerechnen();
 	//OnClick wird an die Liste angehangen,client stellt wieder anfrage nach dem speziellen track
 	list.onclick = function (event) {
 		var geklickteId = event.target.getAttribute("id");
+		let url = document.URL;
 		fetch("http://localhost:8080/tracklist/" + geklickteId).then(response => {
 			if (response.ok) {
 				return response.json();
@@ -81,7 +142,8 @@ function fuelleListe(obj) {
 			makeCoordinaten(result);
 		}).catch(error => {
 			console.error(error.message);
-		});
+			});
+		
 	};
 }
 //Client bekommt Koordinaten des Tracks zurück und setzt den Pfad der Polyline und die Grenzen
