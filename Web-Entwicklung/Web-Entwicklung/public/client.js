@@ -4,8 +4,6 @@ var polyline;
 var eintraegeProSeite;
 var list = document.getElementById("list");
 var GoogleMapsLoader = require("google-maps");
-var paginationdiv = document.getElementById("pagination");
-var paginaton = require("pagination");
 var previous = document.getElementById("previousPage");
 var next = document.getElementById("nextPage");
 var curent = document.getElementById("currentPage");
@@ -68,7 +66,7 @@ fetch(url + "tracklist").then(response => {
 	fuelleListe(result);
 }).catch(error => {
 	console.error(error.message);
-	});
+});
 
 //Paginierungsfunktion
 function paginate() {
@@ -77,11 +75,8 @@ function paginate() {
 	let children = list.childNodes;
 	let seiten = Math.round(children.length / eintraegeProSeite) + 1;
 
-	//Wenn Fenster zu klein gezogen wird,immer 67 Seiten,mit einem eintrag
-	if (seiten === Infinity || seiten === -Infinity || seiten < 0) {
-		console.log("Seitenif");
+	if (seiten === 67) {
 		seiten = 65;
-		eintraegeProSeite = 1;
 	}
 
 	pages.innerHTML = seiten;
@@ -91,65 +86,66 @@ function paginate() {
 		let id = children[v].getAttribute("id");
 		let elem = document.getElementById(id);
 		if (v > eintraegeProSeite) {
-			elem.style.display = 'none';
+			elem.style.display = "none";
 			//elemente ausblenden
-		} else {
-			elem.style.display = 'block';
+		}
+		else {
+			elem.style.display = "block";
 		}
 	}
 
 	//OnClick Listener von previous
-	previous.onclick = function (event) {
+	previous.onclick = function () {
 		currentPage = parseInt(curent.textContent);
 		if (currentPage === 1) {
 			curent.innerHTML = currentPage;
-		} else {
+		}
+		else {
 			let neuePage = currentPage - 1;
 			curent.innerHTML = neuePage;
 			togglePages(neuePage);
 		}
-	}
+	};
 
 	//OnClick Listener von Next
-	next.onclick = function (event) {
+	next.onclick = function () {
 		let pagesValue = parseInt(pages.textContent);
 		currentPage = parseInt(curent.textContent);
 		if (currentPage === pagesValue) {
 			console.log("Next OnClick if");
 			curent.innerText = currentPage;
-		} else {
+		}
+		else {
 			console.log("Next OnClick else");
 			let neuecurrentPage = currentPage + 1;
 			curent.innerText = neuecurrentPage;
 			togglePages(neuecurrentPage);
 		}
-	}
+	};
 }
 
 //Wenn umgeschaltet wird,sichtbarkeiten umschalten
 function togglePages(currentPage) {
-	
 	let vorherigeSeite = currentPage - 1;
-	let von = (eintraegeProSeite * vorherigeSeite)+1;
+	let von = (eintraegeProSeite * vorherigeSeite) + 1;
 	let bis = currentPage * eintraegeProSeite;
 	let childs = list.childNodes;
 
 	for (let i = 1; i < childs.length; i++) {
 		let Id = childs[i].getAttribute("id");
-		document.getElementById(Id).style.display = 'none';
+		document.getElementById(Id).style.display = "none";
 	}
 
-	for (let i = von; i <=bis; i++) {
+	for (let i = von; i <= bis; i++) {
 		let id = childs[i].getAttribute("id");
-		document.getElementById(id).style.display = 'block';
+		document.getElementById(id).style.display = "table";
 	}
-
 }
 
 //Die Einträge pro Seite berechnen,wird am Anfang aufgerufen und bei jedem Reseize
 function eintraegeProSeiteBerechnen() {
 	let browserhöhe = document.documentElement.clientHeight;
-	let neueeintraege = Math.round(((browserhöhe / 10)/2)-10);
+	let neueeintraege = Math.round(((browserhöhe / 10) / 2) - 2);
 	eintraegeProSeite = neueeintraege;
 	paginate();
 }
@@ -173,7 +169,6 @@ function fuelleListe(obj) {
 	//OnClick wird an die Liste angehangen,client stellt wieder anfrage nach dem speziellen track
 	list.onclick = function (event) {
 		var geklickteId = event.target.getAttribute("id");
-		
 		fetch(url + "tracklist/" + geklickteId).then(response => {
 			if (response.ok) {
 				return response.json();
@@ -185,7 +180,7 @@ function fuelleListe(obj) {
 			makeCoordinaten(result);
 		}).catch(error => {
 			console.error(error.message);
-			});
+		});
 	};
 }
 
@@ -193,7 +188,6 @@ function fuelleListe(obj) {
 function makeCoordinaten(coords) {
 	var path = [];
 	var koordinaten = coords;
-	
 	GoogleMapsLoader.load(function (google) {
 		var bounds = new google.maps.LatLngBounds();
 		for (let j = 0; j < koordinaten.length; j++) {
