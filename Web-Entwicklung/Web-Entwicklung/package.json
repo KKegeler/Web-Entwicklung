@@ -16,7 +16,6 @@
     "express": "latest",
     "google-maps": "latest",
     "googlemaps": "latest",
-    "pagination": "^0.4.4",
     "socket.io": "latest"
   },
   "scripts": {
