@@ -5,6 +5,8 @@ var eintraegeProSeite;
 var list = document.getElementById("list");
 var GoogleMapsLoader = require("google-maps");
 var paginationdiv = document.getElementById("pagination");
+var paginaton = require("pagination");
+var url = document.URL;
 //API-Key setzen
 GoogleMapsLoader.KEY = "AIzaSyAqOM-iRIWZHE6f5x0wUF7fAFvCPuyKAFY";
 
@@ -49,7 +51,7 @@ function append(parent, el) {
 	return parent.appendChild(el);
 }
 //Client stellt beim Webseite starten anfrage an den Server für die Trackliste
-fetch("http://localhost:8080/tracklist").then(response => {
+fetch(url + "tracklist").then(response => {
 	if (response.ok) {
 		return response.json();
 	}
@@ -60,7 +62,7 @@ fetch("http://localhost:8080/tracklist").then(response => {
 	fuelleListe(result);
 }).catch(error => {
 	console.error(error.message);
-});
+	});
 
 function paginate() {
 	let browserhöhe = document.documentElement.clientHeight;
@@ -80,30 +82,32 @@ function paginate() {
 		let id = children[v].getAttribute("id");
 		let elem = document.getElementById(id);
 		if (v > eintraegeProSeite) {
-			elem.style.display = "none";
-		}
-		//elemente ausblenden
-		else {
-			elem.style.display = "block";
+			elem.style.display = 'none';
+			//elemente ausblenden
+		} else {
+			elem.style.display = 'block';
 		}
 	}
 
 	paginationdiv.onclick = function (event) {
 		let seitenid = event.target.getAttribute("class");
 		let vorherigeSeite = seitenid - 1;
-		let von = (eintraegeProSeite * vorherigeSeite) + 1;
+		let von = eintraegeProSeite * vorherigeSeite + 1;
 		let bis = seitenid * eintraegeProSeite;
 		let childs = list.childNodes;
-		for (let i = 1; i < childs.length; i++) {
+		for (let i = 1; i< childs.length; i++) {
 			let Id = childs[i].getAttribute("id");
-			document.getElementById(Id).style.display = "none";
+			document.getElementById(Id).style.display = 'none';
 		}
 
 		for (let i = von; i < bis; i++) {
 			let id = childs[i].getAttribute("id");
-			document.getElementById(id).style.display = "block";
+			document.getElementById(id).style.display = 'block';
+			
 		}
-	};
+
+	}
+
 }
 
 function eintraegeProSeiteBerechnen() {
@@ -115,7 +119,6 @@ function eintraegeProSeiteBerechnen() {
 }
 
 window.onresize = eintraegeProSeiteBerechnen;
-
 //Client bekommt Trackliste und erstellt die Liste
 function fuelleListe(obj) {
 	for (var i = 0; i < obj.names.length; i++) {
@@ -128,8 +131,8 @@ function fuelleListe(obj) {
 	//OnClick wird an die Liste angehangen,client stellt wieder anfrage nach dem speziellen track
 	list.onclick = function (event) {
 		var geklickteId = event.target.getAttribute("id");
-		let url = document.URL;
-		fetch("http://localhost:8080/tracklist/" + geklickteId).then(response => {
+		
+		fetch(url + "tracklist/" + geklickteId).then(response => {
 			if (response.ok) {
 				return response.json();
 			}
@@ -138,10 +141,10 @@ function fuelleListe(obj) {
 			}
 		}).then(result => {
 			makeCoordinaten(result);
-			drawHeightProfile(result);
 		}).catch(error => {
 			console.error(error.message);
-		});
+			});
+		
 	};
 }
 //Client bekommt Koordinaten des Tracks zurück und setzt den Pfad der Polyline und die Grenzen
@@ -159,28 +162,4 @@ function makeCoordinaten(coords) {
 		polyline.setMap(map);
 		map.fitBounds(bounds);
 	});
-}
-
-function drawHeightProfile(coords) {
-	var myCanvas = createNode("canvas");
-	var myCanvasDiv = document.getElementById("heightProfile");
-
-	var coordinates = coords;
-	var heightValues = [];
-	var points = coordinates.length;
-	for (let i = 0; i < points; i++) {
-		heightValues.push(coordinates[i][2]);
-	}
-
-	var ctx = myCanvas.getContext("2d");
-	ctx.fillStyle = "#000000";
-	ctx.fillRect(0, 0, 600, 400);
-	ctx.strokeStyle = "#FFFFFF";
-	ctx.moveTo(400, 0);
-	for (let j = 0; j < points; j++) {
-		ctx.lineTo(400 - heightValues[j], j);
-	}
-	console.log("Höhenprofil: " + heightValues[0]);
-
-	append(myCanvasDiv, myCanvas);
 }
