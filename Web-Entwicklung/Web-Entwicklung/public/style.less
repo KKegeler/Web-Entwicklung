@@ -6,10 +6,23 @@ body {
 
 }
 
+#wrapper {
+	position: relative;
+}
+
 #map {
     width: 70%;
     height: 100vh;
+	z-index: 0;
+}
 
+#heightProfile {
+	position: absolute;
+	width: 400px;
+	height: 200px;
+	bottom: 0px;
+	left: 0px;
+	z-index: 1;
 }
 
 #listcontainer {
@@ -19,8 +32,6 @@ body {
 	right: 0px;
 	top: 15px;
 	position: fixed;
-
-	
 }
 
 #pagination {
