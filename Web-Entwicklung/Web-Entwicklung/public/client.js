@@ -1,8 +1,8 @@
-﻿//npm modul google-maps einbinden (Wrapper für Google Maps API)
-var map;
+﻿var map;
 var polyline;
 var eintraegeProSeite;
 var list = document.getElementById("list");
+//npm modul google-maps einbinden (Wrapper für Google Maps API)
 var GoogleMapsLoader = require("google-maps");
 var paginationdiv = document.getElementById("pagination");
 var url = document.URL;
@@ -22,24 +22,6 @@ GoogleMapsLoader.load(function (google) {
 	map = new google.maps.Map(document.getElementById("map"), mapOptions);
 	polyline = new google.maps.Polyline({ strokeColor: "#FF0000", strokeOpacity: 1.0, strokeWeight: 2 });
 });
-
-/*
-GoogleMapsLoader.event.addDomListener(window, "resize", function () {
-	var center = map.getCenter();
-	GoogleMapsLoader.maps.event.trigger(map, "resize");
-	map.setCenter(center);
-	window.alert("Resize triggered!");
-});
-
-GoogleMapsLoader.onLoad(function (google) {
-	window.alert("onload");
-	google.event.addDomListener(window, "resize", function () {
-		var center = map.getCenter();
-		google.maps.event.trigger(map, "resize");
-		map.setCenter(center);
-		window.alert("Resize triggered!");
-	});
-});*/
 
 //Hilfsfunktion zum Element erstellen
 function createNode(element) {
@@ -110,11 +92,11 @@ function eintraegeProSeiteBerechnen() {
 	let browserhöhe = document.documentElement.clientHeight;
 	let neueeintraege = Math.round((browserhöhe / 2) / 10);
 	eintraegeProSeite = neueeintraege;
-	console.log("EintraegeProSeite: " + eintraegeProSeite);
+	//console.log("EintraegeProSeite: " + eintraegeProSeite);
 	paginate();
 }
 
-window.onresize = eintraegeProSeiteBerechnen;
+var latestId = null;
 //Client bekommt Trackliste und erstellt die Liste
 function fuelleListe(obj) {
 	for (var i = 0; i < obj.names.length; i++) {
@@ -127,6 +109,7 @@ function fuelleListe(obj) {
 	//OnClick wird an die Liste angehangen,client stellt wieder anfrage nach dem speziellen track
 	list.onclick = function (event) {
 		var geklickteId = event.target.getAttribute("id");
+		latestId = geklickteId;
 		fetch(url + "tracklist/" + geklickteId).then(response => {
 			if (response.ok) {
 				return response.json();
@@ -159,16 +142,9 @@ function makeCoordinaten(coords) {
 	});
 }
 
-var myCanvas = createNode("canvas");
-myCanvas.width = 400;
-myCanvas.height = 200;
-var myCanvasDiv = document.getElementById("heightProfile")
-var ctx = myCanvas.getContext("2d");
-append(myCanvasDiv, myCanvas);
-
 var highestGlobal = 0;
-getHighestGlobal();
 
+//Berechnung des höchsten Wertes einer Route
 function getHighest(coords) {
 	var vals = coords;
 	var tmp = vals[0][2];
@@ -182,6 +158,7 @@ function getHighest(coords) {
 	}
 }
 
+//Berechnung des höchsten Wertes aller Routen
 function getHighestGlobal() {
 	for (var i = 1; i < 66; i++) {
 		fetch(url + "tracklist/" + i).then(response => {
@@ -198,36 +175,93 @@ function getHighestGlobal() {
 		});
 	}
 }
+getHighestGlobal();
 
+//Canvas Element erstellen
+var myCanvas = createNode("canvas");
+
+//Canvas Element an div anhängen
+var myCanvasDiv = document.getElementById("heightProfile");
+var ctx = myCanvas.getContext("2d");
+append(myCanvasDiv, myCanvas);
+
+//Höhenprofil zeichnen
 function drawHeightProfile(coords) {
 	var coordinates = coords;
 	var heightValues = [];
 	var points = coordinates.length;
+	//Vorherige Werte speichern
+	var prevWidth = myCanvas.width;
+	var prevHeight = myCanvas.height;
+	//Neue Werte berechnen
+	calculateCanvasSize();
+	//Abstand für Breite berechnen
 	var val = 1.00;
 	val /= points;
-	val *= 400;
-	val = Number(val).toFixed(2);
-	console.log("Val: " + val);
-
+	val *= myCanvas.width;
+	//heightValues befüllen
 	for (let i = 0; i < points; i++) {
 		heightValues.push(coordinates[i][2]);
 	}
-	ctx.clearRect(0, 0, 400, 200);
+	//Alte "Zeichnung" löschen
+	ctx.clearRect(0, 0, prevWidth, prevHeight);
+	//Neuen Hintergrund zeichnen
 	ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
-	ctx.fillRect(0, 0, 400, 200);
+	ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
 	ctx.beginPath();
-	ctx.moveTo(0, 200 - ((heightValues[0] / highestGlobal) * 200));
-	var width = parseFloat(val);
+	//Erster Punkt bei 0
+	ctx.moveTo(0, myCanvas.height - ((heightValues[0] / highestGlobal) * myCanvas.height));
+	var width = val;
 	var height;
 	for (var j = 1; j < points; j++) {
-		height = (heightValues[j] / highestGlobal) * 200;
-		height = 200 - height;
+		//Höhe umrechnen
+		height = (heightValues[j] / highestGlobal) * myCanvas.height;
+		height = myCanvas.height - height;
+		//Linie weiter ziehen
 		ctx.lineTo(width, height);
-		width = Number(parseFloat(parseFloat(width) + parseFloat(val))).toFixed(2);
+		//Einen Schritt weiter gehen
+		width += val;
 	}
-	console.log("Temp: " + width);
+	//Linie zeichnen
 	ctx.strokeStyle = "#FFFFFF";
 	ctx.strokeWidth = 20;
 	ctx.stroke();
-	console.log("Höhenprofil: " + heightValues[0]);
+}
+
+//Canvas Größe berechnen in Abhängigkeit der Fenster-Größe
+var counter = 0;
+function calculateCanvasSize() {
+	counter++;
+	console.log("calculate: " + counter);
+	var w = window.innerWidth;
+	var h = window.innerHeight;
+	myCanvas.width = w / 4;
+	myCanvas.height = h / 4.5;
+}
+
+function redraw() {
+	//neu zeichnen
+	if (latestId !== null) {
+		fetch(url + "tracklist/" + latestId).then(response => {
+			if (response.ok) {
+				return response.json();
+			}
+			else {
+				return null;
+			}
+		}).then(result => {
+			drawHeightProfile(result);
+		}).catch(error => {
+			console.error(error.message);
+		});
+	}
+}
+
+var resize = 0;
+window.addEventListener("resize", resizeActions);
+function resizeActions() {
+	console.log("resize " + resize);
+	resize++;
+	eintraegeProSeiteBerechnen();
+	redraw();
 }
