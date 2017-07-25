@@ -73,7 +73,7 @@ function paginate() {
 	//benötigte Werte holen
 	let currentPage = parseInt(curent.textContent);
 	let children = list.childNodes;
-	let seiten = Math.round(children.length / eintraegeProSeite) + 1;
+	let seiten = Math.floor(children.length / eintraegeProSeite) + 1;
 
 	if (seiten === 67) {
 		seiten = 65;
@@ -145,6 +145,7 @@ function togglePages(currentPage) {
 //Die Einträge pro Seite berechnen,wird am Anfang aufgerufen und bei jedem Reseize
 function eintraegeProSeiteBerechnen() {
 	let browserhöhe = document.documentElement.clientHeight;
+	console.log(browserhöhe);
 	let neueeintraege = Math.round(((browserhöhe / 10) / 2) - 2);
 	eintraegeProSeite = neueeintraege;
 	paginate();
