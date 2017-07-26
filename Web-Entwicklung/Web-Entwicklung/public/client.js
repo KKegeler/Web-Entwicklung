@@ -4,7 +4,10 @@ var eintraegeProSeite;
 var list = document.getElementById("list");
 //npm modul google-maps einbinden (Wrapper für Google Maps API)
 var GoogleMapsLoader = require("google-maps");
-var paginationdiv = document.getElementById("pagination");
+var previous = document.getElementById("previousPage");
+var next = document.getElementById("nextPage");
+var current = document.getElementById("currentPage");
+var pages = document.getElementById("Pages");
 var url = document.URL;
 //API-Key setzen
 GoogleMapsLoader.KEY = "AIzaSyAqOM-iRIWZHE6f5x0wUF7fAFvCPuyKAFY";
@@ -45,54 +48,86 @@ fetch(url + "tracklist").then(response => {
 	console.error(error.message);
 });
 
+//Paginierungsfunktion
 function paginate() {
-	let browserhöhe = document.documentElement.clientHeight;
-	var currentPage = 1;
-	let seiten = Math.round(browserhöhe / eintraegeProSeite);
-	console.log("Seiten: " + seiten);
-	for (var i = 0; i <= seiten; i++) {
-		let a = createNode("a");
-		a.innerHTML = i + 1;
-		a.setAttribute("class", "" + (i + 1));
-		append(paginationdiv, a);
+	//benötigte Werte holen
+	let currentPage = parseInt(current.textContent);
+	let children = list.childNodes;
+	let seiten = Math.floor(children.length / eintraegeProSeite) + 1;
+
+	if (seiten === 67) {
+		seiten = 65;
 	}
 
-	let children = list.childNodes;
+	pages.innerHTML = seiten;
+
+	//Nicht benötigte Einträge unsichtbar machen
 	for (let v = 1; v < children.length; v++) {
-		//let id = children.
 		let id = children[v].getAttribute("id");
 		let elem = document.getElementById(id);
 		if (v > eintraegeProSeite) {
 			elem.style.display = "none";
-		} //elemente ausblenden
+			//elemente ausblenden
+		}
 		else {
 			elem.style.display = "block";
 		}
 	}
 
-	paginationdiv.onclick = function (event) {
-		let seitenid = event.target.getAttribute("class");
-		let vorherigeSeite = seitenid - 1;
-		let von = (eintraegeProSeite * vorherigeSeite) + 1;
-		let bis = seitenid * eintraegeProSeite;
-		let childs = list.childNodes;
-		for (let i = 1; i < childs.length; i++) {
-			let Id = childs[i].getAttribute("id");
-			document.getElementById(Id).style.display = "none";
+	//OnClick Listener von previous
+	previous.onclick = function () {
+		currentPage = parseInt(current.textContent);
+		if (currentPage === 1) {
+			current.innerHTML = currentPage;
 		}
+		else {
+			let neuePage = currentPage - 1;
+			current.innerHTML = neuePage;
+			togglePages(neuePage);
+		}
+	};
 
-		for (let i = von; i < bis; i++) {
-			let id = childs[i].getAttribute("id");
-			document.getElementById(id).style.display = "block";
+	//OnClick Listener von Next
+	next.onclick = function () {
+		let pagesValue = parseInt(pages.textContent);
+		currentPage = parseInt(current.textContent);
+		if (currentPage === pagesValue) {
+			console.log("Next OnClick if");
+			current.innerText = currentPage;
+		}
+		else {
+			console.log("Next OnClick else");
+			let neuecurrentPage = currentPage + 1;
+			current.innerText = neuecurrentPage;
+			togglePages(neuecurrentPage);
 		}
 	};
 }
 
+//Wenn umgeschaltet wird,sichtbarkeiten umschalten
+function togglePages(currentPage) {
+	let vorherigeSeite = currentPage - 1;
+	let von = (eintraegeProSeite * vorherigeSeite) + 1;
+	let bis = currentPage * eintraegeProSeite;
+	let childs = list.childNodes;
+
+	for (let i = 1; i < childs.length; i++) {
+		let Id = childs[i].getAttribute("id");
+		document.getElementById(Id).style.display = "none";
+	}
+
+	for (let i = von; i <= bis; i++) {
+		let id = childs[i].getAttribute("id");
+		document.getElementById(id).style.display = "table";
+	}
+}
+
+//Die Einträge pro Seite berechnen,wird am Anfang aufgerufen und bei jedem Reseize
 function eintraegeProSeiteBerechnen() {
 	let browserhöhe = document.documentElement.clientHeight;
-	let neueeintraege = Math.round((browserhöhe / 2) / 10);
+	console.log(browserhöhe);
+	let neueeintraege = Math.round(((browserhöhe / 10) / 2) - 2);
 	eintraegeProSeite = neueeintraege;
-	//console.log("EintraegeProSeite: " + eintraegeProSeite);
 	paginate();
 }
 
@@ -106,6 +141,7 @@ function fuelleListe(obj) {
 		append(list, li);
 	}
 	eintraegeProSeiteBerechnen();
+
 	//OnClick wird an die Liste angehangen,client stellt wieder anfrage nach dem speziellen track
 	list.onclick = function (event) {
 		var geklickteId = event.target.getAttribute("id");
@@ -129,7 +165,6 @@ function fuelleListe(obj) {
 function makeCoordinaten(coords) {
 	var path = [];
 	var koordinaten = coords;
-	//console.log("TestVariable: " + typeof())
 	GoogleMapsLoader.load(function (google) {
 		var bounds = new google.maps.LatLngBounds();
 		for (let j = 0; j < koordinaten.length; j++) {
@@ -262,6 +297,7 @@ window.addEventListener("resize", resizeActions);
 function resizeActions() {
 	console.log("resize " + resize);
 	resize++;
+	current.innerHTML = 1;
 	eintraegeProSeiteBerechnen();
 	redraw();
 }
