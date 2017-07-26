@@ -271,7 +271,7 @@ function calculateCanvasSize() {
 	console.log("calculate: " + counter);
 	var w = window.innerWidth;
 	var h = window.innerHeight;
-	myCanvas.width = w / 4;
+	myCanvas.width = w / 4.5;
 	myCanvas.height = h / 4.5;
 }
 

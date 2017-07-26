@@ -1,8 +1,9 @@
-@background: darkorange;
+@list-background: #FFB140;
+@pagination-background: #FFC673;
+@li-background: #FF9700;
 
 body {
     margin: 0px;
-
 }
 
 #wrapper {
@@ -17,13 +18,13 @@ body {
 
 #heightProfile {
 	position: absolute;
-	bottom: 0px;
-	left: 0px;
+	bottom: 10px;
+	left: 10px;
 	z-index: 1;
 }
 
 #listcontainer {
-	background: @background;
+	background: @list-background;
 	width: 30%;
 	height: 100%;
 	right: 0px;
@@ -39,7 +40,29 @@ body {
 	right: 0px;
 	top: 0px;
 	position: fixed;
-	background: darkslateblue;
+	background: @pagination-background;
+}
+
+#pageNumbers {
+	float: right;
+}
+
+i {
+	border: solid black;
+	border-width: 0 3px 3px 0;
+	display: inline-block;
+	padding: 3px;
+	margin: 3px;
+}
+
+.right {
+	transform: rotate(-45deg);
+	-webkit-transform: rotate(-45deg);
+}
+
+.left {
+	transform: rotate(135deg);
+	-webkit-transform: rotate(135deg);
 }
 
 #list {
@@ -52,7 +75,9 @@ body {
 		text-overflow:ellipsis;
 		white-space:nowrap;
 		height: 30px;
-		background: aquamarine;
+		background: @li-background;
 		margin-bottom: 2px;
+		line-height: 30px;
+		padding-left: 4px;
 	}
 }
