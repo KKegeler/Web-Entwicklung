@@ -118,15 +118,16 @@ function togglePages(currentPage) {
 
 	for (let i = von; i <= bis; i++) {
 		let id = childs[i].getAttribute("id");
-		document.getElementById(id).style.display = "table";
+		document.getElementById(id).style.display = "block";
 	}
 }
 
 //Die Einträge pro Seite berechnen,wird am Anfang aufgerufen und bei jedem Reseize
 function eintraegeProSeiteBerechnen() {
-	let browserhöhe = document.documentElement.clientHeight;
+	let browserhöhe = window.innerHeight;
 	console.log(browserhöhe);
-	let neueeintraege = Math.round(((browserhöhe / 10) / 2) - 2);
+	let neueeintraege = Math.round((browserhöhe - 18) / 32);
+		//Math.round(((browserhöhe / 10) / 2) - 2);
 	eintraegeProSeite = neueeintraege;
 	paginate();
 }
