@@ -55,7 +55,7 @@ app.get("/tracklist/:id", function (req, res) {
 	let jsonDatei = require("./Daten/" + req.params.id + ".json");
 	var coordinates = [];
 	for (let i = 0; i < jsonDatei.features[0].geometry.coordinates.length; i++) {
-		var coordPunkt = [jsonDatei.features[0].geometry.coordinates[i][1], jsonDatei.features[0].geometry.coordinates[i][0], jsonDatei.features[2]];
+		var coordPunkt = [jsonDatei.features[0].geometry.coordinates[i][1], jsonDatei.features[0].geometry.coordinates[i][0], jsonDatei.features[0].geometry.coordinates[i][2]];
 		coordinates.push(coordPunkt);
 	}
 	res.json(coordinates);
