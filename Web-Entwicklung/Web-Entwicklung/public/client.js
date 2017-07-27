@@ -1,6 +1,6 @@
 ﻿var map;
 var polyline;
-var eintraegeProSeite;
+var entriesPerPage;
 var list = document.getElementById("list");
 //npm modul google-maps einbinden (Wrapper für Google Maps API)
 var GoogleMapsLoader = require("google-maps");
@@ -43,7 +43,7 @@ fetch(url + "tracklist").then(response => {
 		return null;
 	}
 }).then(result => {
-	fuelleListe(result);
+	fillList(result);
 }).catch(error => {
 	console.error(error.message);
 });
@@ -53,19 +53,19 @@ function paginate() {
 	//benötigte Werte holen
 	let currentPage = parseInt(current.textContent);
 	let children = list.childNodes;
-	let seiten = Math.floor(children.length / eintraegeProSeite) + 1;
+	let currentPages = Math.floor(children.length / entriesPerPage) + 1;
 
-	if (seiten === 67) {
-		seiten = 65;
+	if (currentPages === 67) {
+		currentPages = 65;
 	}
 
-	pages.innerHTML = seiten;
+	pages.innerHTML = currentPages;
 
 	//Nicht benötigte Einträge unsichtbar machen
 	for (let v = 1; v < children.length; v++) {
 		let id = children[v].getAttribute("id");
 		let elem = document.getElementById(id);
-		if (v > eintraegeProSeite) {
+		if (v > entriesPerPage) {
 			elem.style.display = "none";
 			//elemente ausblenden
 		}
@@ -81,9 +81,9 @@ function paginate() {
 			current.innerHTML = currentPage;
 		}
 		else {
-			let neuePage = currentPage - 1;
-			current.innerHTML = neuePage;
-			togglePages(neuePage);
+			let newPage = currentPage - 1;
+			current.innerHTML = newPage;
+			togglePages(newPage);
 		}
 	};
 
@@ -97,58 +97,57 @@ function paginate() {
 		}
 		else {
 			console.log("Next OnClick else");
-			let neuecurrentPage = currentPage + 1;
-			current.innerText = neuecurrentPage;
-			togglePages(neuecurrentPage);
+			let newCurrentPage = currentPage + 1;
+			current.innerText = newCurrentPage;
+			togglePages(newCurrentPage);
 		}
 	};
 }
 
 //Wenn umgeschaltet wird,sichtbarkeiten umschalten
 function togglePages(currentPage) {
-	let vorherigeSeite = currentPage - 1;
-	let von = (eintraegeProSeite * vorherigeSeite) + 1;
-	let bis = currentPage * eintraegeProSeite;
-	let childs = list.childNodes;
+	let previousPage = currentPage - 1;
+	let from = (entriesPerPage * previousPage) + 1;
+	let to = currentPage * entriesPerPage;
+	let children = list.childNodes;
 
-	for (let i = 1; i < childs.length; i++) {
-		let Id = childs[i].getAttribute("id");
-		document.getElementById(Id).style.display = "none";
+	for (let i = 1; i < children.length; i++) {
+		let id = children[i].getAttribute("id");
+		document.getElementById(id).style.display = "none";
 	}
 
-	for (let i = von; i <= bis; i++) {
-		let id = childs[i].getAttribute("id");
+	for (let i = from; i <= to; i++) {
+		let id = children[i].getAttribute("id");
 		document.getElementById(id).style.display = "block";
 	}
 }
 
 //Die Einträge pro Seite berechnen,wird am Anfang aufgerufen und bei jedem Reseize
-function eintraegeProSeiteBerechnen() {
-	let browserhöhe = window.innerHeight;
-	console.log(browserhöhe);
+function calculateEntriesPerPage() {
+	let browserHeight = window.innerHeight;
+	console.log(browserHeight);
 	//Berechnung durch Höhe des Fensters - Höhe der Pagination div geteilt durch Höhe pro li-Element
-	let neueeintraege = Math.round((browserhöhe - 22) / 32);
-		//Math.round(((browserhöhe / 10) / 2) - 2);
-	eintraegeProSeite = neueeintraege;
+	let newEntries = Math.round((browserHeight - 22) / 32);
+	entriesPerPage = newEntries;
 	paginate();
 }
 
 var latestId = null;
 //Client bekommt Trackliste und erstellt die Liste
-function fuelleListe(obj) {
+function fillList(obj) {
 	for (var i = 0; i < obj.names.length; i++) {
 		let li = createNode("li");
 		li.innerHTML = obj.names[i];
 		li.setAttribute("ID", "" + obj.ids[i]);
 		append(list, li);
 	}
-	eintraegeProSeiteBerechnen();
+	calculateEntriesPerPage();
 
 	//OnClick wird an die Liste angehangen,client stellt wieder anfrage nach dem speziellen track
 	list.onclick = function (event) {
-		var geklickteId = event.target.getAttribute("id");
-		latestId = geklickteId;
-		fetch(url + "tracklist/" + geklickteId).then(response => {
+		var clickedId = event.target.getAttribute("id");
+		latestId = clickedId;
+		fetch(url + "tracklist/" + clickedId).then(response => {
 			if (response.ok) {
 				return response.json();
 			}
@@ -156,7 +155,7 @@ function fuelleListe(obj) {
 				return null;
 			}
 		}).then(result => {
-			makeCoordinaten(result);
+			makeCoordinates(result);
 			drawHeightProfile(result);
 		}).catch(error => {
 			console.error(error.message);
@@ -164,14 +163,14 @@ function fuelleListe(obj) {
 	};
 }
 //Client bekommt Koordinaten des Tracks zurück und setzt den Pfad der Polyline und die Grenzen
-function makeCoordinaten(coords) {
+function makeCoordinates(coords) {
 	var path = [];
-	var koordinaten = coords;
+	var coordinates = coords;
 	GoogleMapsLoader.load(function (google) {
 		var bounds = new google.maps.LatLngBounds();
-		for (let j = 0; j < koordinaten.length; j++) {
-			path.push(new google.maps.LatLng(koordinaten[j][0], koordinaten[j][1]));
-			bounds.extend(new google.maps.LatLng(koordinaten[j][0], koordinaten[j][1]));
+		for (let j = 0; j < coordinates.length; j++) {
+			path.push(new google.maps.LatLng(coordinates[j][0], coordinates[j][1]));
+			bounds.extend(new google.maps.LatLng(coordinates[j][0], coordinates[j][1]));
 		}
 		polyline.setPath(path);
 		polyline.setMap(map);
@@ -294,12 +293,13 @@ function redraw() {
 	}
 }
 
+//Listener für Änderung der Fenstergröße
 var resize = 0;
 window.addEventListener("resize", resizeActions);
 function resizeActions() {
 	console.log("resize " + resize);
 	resize++;
 	current.innerHTML = 1;
-	eintraegeProSeiteBerechnen();
+	calculateEntriesPerPage();
 	redraw();
 }
