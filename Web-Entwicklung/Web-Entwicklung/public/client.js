@@ -119,10 +119,8 @@ function togglePages(currentPage) {
 			let id = children[i].getAttribute("id");
 			document.getElementById(id).style.display = "block";
 		}
-		
 	}
 }
-
 //Die Einträge pro Seite berechnen,wird am Anfang aufgerufen und bei jedem Reseize
 function calculateEntriesPerPage() {
 	let browserHeight = window.innerHeight;
