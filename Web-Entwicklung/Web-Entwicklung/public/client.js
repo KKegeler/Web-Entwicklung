@@ -115,8 +115,11 @@ function togglePages(currentPage) {
 	}
 
 	for (let i = from; i <= to; i++) {
-		let id = children[i].getAttribute("id");
-		document.getElementById(id).style.display = "block";
+		if (i <= 65) {
+			let id = children[i].getAttribute("id");
+			document.getElementById(id).style.display = "block";
+		}
+		
 	}
 }
 
