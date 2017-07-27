@@ -265,9 +265,7 @@ function drawHeightProfile(coords) {
 }
 
 //Canvas Größe berechnen in Abhängigkeit der Fenster-Größe
-var counter = 0;
 function calculateCanvasSize() {
-	counter++;
 	var w = window.innerWidth;
 	var h = window.innerHeight;
 	myCanvas.width = w / 4.5;
@@ -293,10 +291,8 @@ function redraw() {
 }
 
 //Listener für Änderung der Fenstergröße
-var resize = 0;
 window.addEventListener("resize", resizeActions);
 function resizeActions() {
-	resize++;
 	current.innerHTML = 1;
 	calculateEntriesPerPage();
 	redraw();
