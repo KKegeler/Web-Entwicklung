@@ -1,9 +1,9 @@
 @list-background: white;
 @pagination-background: darkorange;
-@li-background: lightgrey;
+@li-background: darken(@list-background, 20%);
 @li-hover-background: peachpuff;
 @arrow: black;
-@arrow-hover: #666666;
+@arrow-hover: lighten(@arrow, 70%);
 
 body {
     margin: 0px;
@@ -12,19 +12,67 @@ body {
 
 #wrapper {
 	position: relative;
-}
 
-#map {
+  #map {
     width: 70%;
     height: 100vh;
-	z-index: 0;
+    z-index: 0;
+  }
+
+  #heightProfile {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    z-index: 1;
+  }
 }
 
-#heightProfile {
-	position: absolute;
-	bottom: 10px;
-	left: 10px;
-	z-index: 1;
+#pagination {
+  width: 30%;
+  height: 22px;
+  right: 0px;
+  top: 0px;
+  position: fixed;
+  background: @pagination-background;
+
+  #arrows {
+
+    i {
+      border: solid @arrow;
+      .arrow;
+
+      .arrow {
+        border-width: 0 3px 3px 0;
+        display: inline-block;
+        padding: 3px;
+        margin: 5px;
+      }
+
+      &:hover {
+        border: solid @arrow-hover;
+        .arrow;
+      }
+
+      &#left {
+        transform: rotate(135deg);
+        -webkit-transform: rotate(135deg);
+        margin-left: 5px;
+      }
+
+      &#right {
+        transform: rotate(-45deg);
+        -webkit-transform: rotate(-45deg);
+      }
+    }
+  }
+
+  #pageNumbers {
+    float: right;
+    position: fixed;
+    right: 0px;
+    top: 0px;
+    margin-right: 5px;
+  }
 }
 
 #listcontainer {
@@ -36,65 +84,25 @@ body {
 	position: fixed;
 	margin: 0px;
 	padding: 0px;
-}
 
-#pagination {
-	width: 30%;
-	height: 22px;
-	right: 0px;
-	top: 0px;
-	position: fixed;
-	background: @pagination-background;
-}
+  #list {
+    position:relative;
+    margin: 0px;
+    padding: 0px;
 
-#pageNumbers {
-	float: right;
-	margin-right: 5px;
-}
+    li {
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      height: 30px;
+      background: @li-background;
+      margin-bottom: 2px;
+      line-height: 30px;
+      padding-left: 4px;
 
-i {
-	border: solid @arrow;
-	border-width: 0 3px 3px 0;
-	display: inline-block;
-	padding: 3px;
-	margin: 5px;
-}
-
-i:hover {
-	border: solid @arrow-hover;
-	border-width: 0 3px 3px 0;
-	display: inline-block;
-	padding: 3px;
-	margin: 5px;
-}
-
-.left {
-	transform: rotate(135deg);
-	-webkit-transform: rotate(135deg);
-	margin-left: 5px;
-}
-
-.right {
-	transform: rotate(-45deg);
-	-webkit-transform: rotate(-45deg);
-}
-
-#list {
-	position:relative;
-	margin: 0px;
-	padding: 0px;
-
-	li {
-		overflow:hidden;
-		text-overflow:ellipsis;
-		white-space:nowrap;
-		height: 30px;
-		background: @li-background;
-		margin-bottom: 2px;
-		line-height: 30px;
-		padding-left: 4px;
-	}
-	li:hover {
-		background: @li-hover-background;
-	}
+      &:hover {
+        background: @li-hover-background;
+      }
+    }
+  }
 }

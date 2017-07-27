@@ -8,16 +8,19 @@
     <title>Routen</title>
 </head>
 <body>
-<div id="wrapper">
-    <div id="map">
-    </div>
-    <div id="heightProfile">
-    </div>
-</div>
+    <div id="wrapper">
+        <div id="map">
+        </div>
 
-	<div id="pagination">
-        <a id="previousPage"><i class="left"></i></a>
-        <a id="nextPage"><i class="right"></i></a>
+        <div id="heightProfile">
+        </div>
+    </div>
+
+    <div id="pagination">
+        <div id="arrows">
+            <a id="previousPage"><i class="arrow" id="left"></i></a>
+            <a id="nextPage"><i class="arrow" id="right"></i></a>
+        </div>
 
         <div id="pageNumbers">
             <a id="currentPage">1</a>
@@ -25,10 +28,12 @@
             <a id="Pages"></a>
         </div>
     </div>
+
     <div id="listcontainer">
-		<ul id="list">
-		</ul>
+        <ul id="list">
+        </ul>
     </div>
+
 	<script src="main.js"></script>
 </body>
 </html>
