@@ -28,7 +28,16 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="public\client.js">
+    <Compile Include="Javascript\GoogleMap.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Javascript\HeightProfile.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Javascript\pagination.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Javascript\client.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="server.js" />
@@ -109,6 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Daten\" />
+    <Folder Include="Javascript\" />
     <Folder Include="public\" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->

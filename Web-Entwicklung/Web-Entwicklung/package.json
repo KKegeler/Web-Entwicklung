@@ -17,8 +17,8 @@
     "google-maps": "latest"
   },
   "scripts": {
-    "lint": "eslint ./server.js && eslint ./public/client.js",
-    "browserify": "browserify ./public/client.js > ./public/generated/main.js",
+    "lint": "eslint ./server.js && eslint ./javascript/client.js",
+    "browserify": "browserify ./javascript/client.js > ./public/generated/main.js",
     "minify": "babili ./public/generated/mainB.js > ./public/generated/main.js",
     "lessc": "lessc --clean-css ./public/style.less ./public/generated/style.min.css",
     "copy": "copy \".\\public\\index.html\" \".\\public\\generated\\index.html\"",
