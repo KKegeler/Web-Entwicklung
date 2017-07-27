@@ -44,14 +44,12 @@ app.get("/tracklist", function (req, res) {
 	});
 
 	var obj = { names, ids };
-	//console.dir(obj);
 	res.json(obj);
 	res.end();
 });
 
 //Wenn auf ein Track geklickt wird, die entsprechenden Koordinaten zurückliefern
 app.get("/tracklist/:id", function (req, res) {
-	//console.log("ID angekommen" + req.params.id);
 	let jsonFile = require("./Daten/" + req.params.id + ".json");
 	var coordinates = [];
 	for (let i = 0; i < jsonFile.features[0].geometry.coordinates.length; i++) {
