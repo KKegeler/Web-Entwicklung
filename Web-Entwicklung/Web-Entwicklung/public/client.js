@@ -126,7 +126,8 @@ function togglePages(currentPage) {
 function eintraegeProSeiteBerechnen() {
 	let browserhöhe = window.innerHeight;
 	console.log(browserhöhe);
-	let neueeintraege = Math.round((browserhöhe - 18) / 32);
+	//Berechnung durch Höhe des Fensters - Höhe der Pagination div geteilt durch Höhe pro li-Element
+	let neueeintraege = Math.round((browserhöhe - 22) / 32);
 		//Math.round(((browserhöhe / 10) / 2) - 2);
 	eintraegeProSeite = neueeintraege;
 	paginate();

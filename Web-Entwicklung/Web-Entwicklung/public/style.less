@@ -2,9 +2,12 @@
 @pagination-background: darkorange;
 @li-background: lightgrey;
 @li-hover-background: peachpuff;
+@arrow: black;
+@arrow-hover: #666666;
 
 body {
     margin: 0px;
+	font-family: Tahoma;
 }
 
 #wrapper {
@@ -29,7 +32,7 @@ body {
 	width: 30%;
 	height: 100%;
 	right: 0px;
-	top: 18px;
+	top: 22px;
 	position: fixed;
 	margin: 0px;
 	padding: 0px;
@@ -37,7 +40,7 @@ body {
 
 #pagination {
 	width: 30%;
-	height: 18px;
+	height: 22px;
 	right: 0px;
 	top: 0px;
 	position: fixed;
@@ -46,14 +49,29 @@ body {
 
 #pageNumbers {
 	float: right;
+	margin-right: 5px;
 }
 
 i {
-	border: solid black;
+	border: solid @arrow;
 	border-width: 0 3px 3px 0;
 	display: inline-block;
 	padding: 3px;
-	margin: 3px;
+	margin: 5px;
+}
+
+i:hover {
+	border: solid @arrow-hover;
+	border-width: 0 3px 3px 0;
+	display: inline-block;
+	padding: 3px;
+	margin: 5px;
+}
+
+.left {
+	transform: rotate(135deg);
+	-webkit-transform: rotate(135deg);
+	margin-left: 5px;
 }
 
 .right {
@@ -61,17 +79,12 @@ i {
 	-webkit-transform: rotate(-45deg);
 }
 
-.left {
-	transform: rotate(135deg);
-	-webkit-transform: rotate(135deg);
-}
-
 #list {
 	position:relative;
 	margin: 0px;
 	padding: 0px;
 
-	li{
+	li {
 		overflow:hidden;
 		text-overflow:ellipsis;
 		white-space:nowrap;
@@ -81,7 +94,7 @@ i {
 		line-height: 30px;
 		padding-left: 4px;
 	}
-	li:hover{
+	li:hover {
 		background: @li-hover-background;
 	}
 }
