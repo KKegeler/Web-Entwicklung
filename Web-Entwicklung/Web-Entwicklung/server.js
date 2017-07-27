@@ -3,8 +3,7 @@ var express = require("express");
 var app = express(); //express server Objekt Instanz
 //Server erstellen
 var server = require("http").createServer(app);
-//Socket.io einbinden und auf Verbindungen warten
-var io = require("socket.io").listen(server);
+//Filesystem einbinden(Standardmäßig mit installiert)
 var fs = require("fs");
 
 //Mitgegebenes Argument einlesen
@@ -30,7 +29,7 @@ app.get("/", function (req, res) {
 	res.sendfile(__dirname + "/public/generated/index.html");
 });
 
-//Wenn /tracklist aufgerufen wird alle Dateien im Ordner durchgehen und die Tracknamen zur�ckliefern
+//Wenn /tracklist aufgerufen wird alle Dateien im Ordner durchgehen und die Tracknamen zurueckliefern
 app.get("/tracklist", function (req, res) {
 	var names = [];
 	var ids = [];
@@ -50,6 +49,7 @@ app.get("/tracklist", function (req, res) {
 	res.end();
 });
 
+//Wenn auf ein Track geklickt wird, die entsprechenden Koordinaten zurückliefern
 app.get("/tracklist/:id", function (req, res) {
 	//console.log("ID angekommen" + req.params.id);
 	let jsonDatei = require("./Daten/" + req.params.id + ".json");

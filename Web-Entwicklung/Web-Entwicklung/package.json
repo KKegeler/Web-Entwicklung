@@ -14,9 +14,7 @@
   },
   "dependencies": {
     "express": "latest",
-    "google-maps": "latest",
-    "googlemaps": "latest",
-    "socket.io": "latest"
+    "google-maps": "latest"
   },
   "scripts": {
     "lint": "eslint ./server.js && eslint ./public/client.js",
@@ -28,7 +26,7 @@
     "del-mainB": "del .\\public\\generated\\mainB.js",
     "generate": "cd public && if not exist generated md generated",
     "build": "npm run generate && npm run copy && npm run browserify && npm run del-mainB && npm run rename && npm run minify && npm run lessc",
-    "debug": "npm run generate && npm run copy && npm run browserify",
+    "debug": "npm run generate && npm run copy && npm run browserify && npm run lessc",
     "start": "node ./server.js",
     "clean": "del public\\generated\\* /q && cd public && rmdir generated && cd .. && rmdir /q /s node_modules"
   }
