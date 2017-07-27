@@ -92,11 +92,11 @@ function paginate() {
 		let pagesValue = parseInt(pages.textContent);
 		currentPage = parseInt(current.textContent);
 		if (currentPage === pagesValue) {
-			console.log("Next OnClick if");
+			//console.log("Next OnClick if");
 			current.innerText = currentPage;
 		}
 		else {
-			console.log("Next OnClick else");
+			//console.log("Next OnClick else");
 			let newCurrentPage = currentPage + 1;
 			current.innerText = newCurrentPage;
 			togglePages(newCurrentPage);
@@ -125,7 +125,7 @@ function togglePages(currentPage) {
 //Die Einträge pro Seite berechnen,wird am Anfang aufgerufen und bei jedem Reseize
 function calculateEntriesPerPage() {
 	let browserHeight = window.innerHeight;
-	console.log(browserHeight);
+	//console.log(browserHeight);
 	//Berechnung durch Höhe des Fensters - Höhe der Pagination div geteilt durch Höhe pro li-Element
 	let newEntries = Math.round((browserHeight - 22) / 32);
 	entriesPerPage = newEntries;
@@ -268,7 +268,7 @@ function drawHeightProfile(coords) {
 var counter = 0;
 function calculateCanvasSize() {
 	counter++;
-	console.log("calculate: " + counter);
+	//console.log("calculate: " + counter);
 	var w = window.innerWidth;
 	var h = window.innerHeight;
 	myCanvas.width = w / 4.5;
@@ -297,7 +297,7 @@ function redraw() {
 var resize = 0;
 window.addEventListener("resize", resizeActions);
 function resizeActions() {
-	console.log("resize " + resize);
+	//console.log("resize " + resize);
 	resize++;
 	current.innerHTML = 1;
 	calculateEntriesPerPage();
