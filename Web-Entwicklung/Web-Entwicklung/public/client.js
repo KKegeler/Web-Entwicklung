@@ -1,21 +1,21 @@
-﻿var map;
-var polyline;
-var entriesPerPage;
-var list = document.getElementById("list");
+﻿let map;
+let polyline;
+let entriesPerPage;
+let list = document.getElementById("list");
 //npm modul google-maps einbinden (Wrapper für Google Maps API)
-var GoogleMapsLoader = require("google-maps");
-var previous = document.getElementById("previousPage");
-var next = document.getElementById("nextPage");
-var current = document.getElementById("currentPage");
-var pages = document.getElementById("Pages");
-var url = document.URL;
+let GoogleMapsLoader = require("google-maps");
+let previous = document.getElementById("previousPage");
+let next = document.getElementById("nextPage");
+let current = document.getElementById("currentPage");
+let pages = document.getElementById("Pages");
+let url = document.URL;
 //API-Key setzen
 GoogleMapsLoader.KEY = "AIzaSyAqOM-iRIWZHE6f5x0wUF7fAFvCPuyKAFY";
 
 //Google Maps API laden
 GoogleMapsLoader.load(function (google) {
 	//Map-Options setzen
-	var mapOptions = {
+	let mapOptions = {
 		//Längengrad und Breitengrad von Trier angeben
 		center: new google.maps.LatLng(49.751185, 6.636405),
 		//Zoom setzen
@@ -125,15 +125,14 @@ function togglePages(currentPage) {
 function calculateEntriesPerPage() {
 	let browserHeight = window.innerHeight;
 	//Berechnung durch Höhe des Fensters - Höhe der Pagination div geteilt durch Höhe pro li-Element
-	let newEntries = Math.round((browserHeight - 22) / 32);
-	entriesPerPage = newEntries;
+	entriesPerPage = Math.round((browserHeight - 22) / 32);
 	paginate();
 }
 
-var latestId = null;
+let latestId = null;
 //Client bekommt Trackliste und erstellt die Liste
 function fillList(obj) {
-	for (var i = 0; i < obj.names.length; i++) {
+	for (let i = 0; i < obj.names.length; i++) {
 		let li = createNode("li");
 		li.innerHTML = obj.names[i];
 		li.setAttribute("ID", "" + obj.ids[i]);
@@ -143,7 +142,7 @@ function fillList(obj) {
 
 	//OnClick wird an die Liste angehangen,client stellt wieder anfrage nach dem speziellen track
 	list.onclick = function (event) {
-		var clickedId = event.target.getAttribute("id");
+		let clickedId = event.target.getAttribute("id");
 		latestId = clickedId;
 		fetch(url + "tracklist/" + clickedId).then(response => {
 			if (response.ok) {
@@ -162,10 +161,10 @@ function fillList(obj) {
 }
 //Client bekommt Koordinaten des Tracks zurück und setzt den Pfad der Polyline und die Grenzen
 function makeCoordinates(coords) {
-	var path = [];
-	var coordinates = coords;
+	let path = [];
+	let coordinates = coords;
 	GoogleMapsLoader.load(function (google) {
-		var bounds = new google.maps.LatLngBounds();
+		let bounds = new google.maps.LatLngBounds();
 		for (let j = 0; j < coordinates.length; j++) {
 			path.push(new google.maps.LatLng(coordinates[j][0], coordinates[j][1]));
 			bounds.extend(new google.maps.LatLng(coordinates[j][0], coordinates[j][1]));
@@ -176,13 +175,13 @@ function makeCoordinates(coords) {
 	});
 }
 
-var highestGlobal = 0;
+let highestGlobal = 0;
 
 //Berechnung des höchsten Wertes einer Route
 function getHighest(coords) {
-	var vals = coords;
-	var tmp = vals[0][2];
-	for (var i = 1; i < vals.length; i++) {
+	let vals = coords;
+	let tmp = vals[0][2];
+	for (let i = 1; i < vals.length; i++) {
 		if (tmp < vals[i][2]) {
 			tmp = vals[i][2];
 		}
@@ -194,7 +193,7 @@ function getHighest(coords) {
 
 //Berechnung des höchsten Wertes aller Routen
 function getHighestGlobal() {
-	for (var i = 1; i < 66; i++) {
+	for (let i = 1; i < 66; i++) {
 		fetch(url + "tracklist/" + i).then(response => {
 			if (response.ok) {
 				return response.json();
@@ -212,25 +211,25 @@ function getHighestGlobal() {
 getHighestGlobal();
 
 //Canvas Element erstellen
-var myCanvas = createNode("canvas");
+let myCanvas = createNode("canvas");
 
 //Canvas Element an div anhängen
-var myCanvasDiv = document.getElementById("heightProfile");
-var ctx = myCanvas.getContext("2d");
+let myCanvasDiv = document.getElementById("heightProfile");
+let ctx = myCanvas.getContext("2d");
 append(myCanvasDiv, myCanvas);
 
 //Höhenprofil zeichnen
 function drawHeightProfile(coords) {
-	var coordinates = coords;
-	var heightValues = [];
-	var points = coordinates.length;
+	let coordinates = coords;
+	let heightValues = [];
+	let points = coordinates.length;
 	//Vorherige Werte speichern
-	var prevWidth = myCanvas.width;
-	var prevHeight = myCanvas.height;
+	let prevWidth = myCanvas.width;
+	let prevHeight = myCanvas.height;
 	//Neue Werte berechnen
 	calculateCanvasSize();
 	//Abstand für Breite berechnen
-	var val = 1.00;
+	let val = 1.00;
 	val /= points;
 	val *= myCanvas.width;
 	//heightValues befüllen
@@ -245,9 +244,9 @@ function drawHeightProfile(coords) {
 	ctx.beginPath();
 	//Erster Punkt bei 0
 	ctx.moveTo(0, myCanvas.height - ((heightValues[0] / highestGlobal) * myCanvas.height));
-	var width = val;
-	var height;
-	for (var j = 1; j < points; j++) {
+	let width = val;
+	let height;
+	for (let j = 1; j < points; j++) {
 		//Höhe umrechnen
 		height = (heightValues[j] / highestGlobal) * myCanvas.height;
 		height = myCanvas.height - height;
@@ -264,8 +263,8 @@ function drawHeightProfile(coords) {
 
 //Canvas Größe berechnen in Abhängigkeit der Fenster-Größe
 function calculateCanvasSize() {
-	var w = window.innerWidth;
-	var h = window.innerHeight;
+	let w = window.innerWidth;
+	let h = window.innerHeight;
 	myCanvas.width = w / 4.5;
 	myCanvas.height = h / 4.5;
 }

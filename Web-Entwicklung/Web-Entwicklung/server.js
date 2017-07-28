@@ -1,14 +1,14 @@
 //Express einbinden
-var express = require("express");
-var app = express(); //express server Objekt Instanz
+let express = require("express");
+let app = express(); //express server Objekt Instanz
 //Server erstellen
-var server = require("http").createServer(app);
+let server = require("http").createServer(app);
 //Filesystem einbinden(Standardmäßig mit installiert)
-var fs = require("fs");
+let fs = require("fs");
 
 //Mitgegebenes Argument einlesen
-var port = process.argv[2];
-var portnumber;
+let port = process.argv[2];
+let portnumber;
 
 //falls Port als Argument mitgegeben, Port setzen
 if (typeof port !== "undefined") {
@@ -31,19 +31,19 @@ app.get("/", function (req, res) {
 
 //Wenn /tracklist aufgerufen wird alle Dateien im Ordner durchgehen und die Tracknamen zurueckliefern
 app.get("/tracklist", function (req, res) {
-	var names = [];
-	var ids = [];
-	var files = fs.readdirSync("./Daten");
+	let names = [];
+	let ids = [];
+	let files = fs.readdirSync("./Daten");
 	files.forEach(function (file) {
 		let jsonDatei = require("./Daten/" + file);
-		var name = jsonDatei.features[0].properties.name;
-		var to = file.indexOf(".");
-		var id = file.slice(0, to);
+		let name = jsonDatei.features[0].properties.name;
+		let to = file.indexOf(".");
+		let id = file.slice(0, to);
 		names.push(name);
 		ids.push(id);
 	});
 
-	var obj = { names, ids };
+	let obj = { names, ids };
 	res.json(obj);
 	res.end();
 });
@@ -51,9 +51,9 @@ app.get("/tracklist", function (req, res) {
 //Wenn auf ein Track geklickt wird, die entsprechenden Koordinaten zurückliefern
 app.get("/tracklist/:id", function (req, res) {
 	let jsonFile = require("./Daten/" + req.params.id + ".json");
-	var coordinates = [];
+	let coordinates = [];
 	for (let i = 0; i < jsonFile.features[0].geometry.coordinates.length; i++) {
-		var coordPunkt = [jsonFile.features[0].geometry.coordinates[i][1], jsonFile.features[0].geometry.coordinates[i][0], jsonFile.features[0].geometry.coordinates[i][2]];
+		let coordPunkt = [jsonFile.features[0].geometry.coordinates[i][1], jsonFile.features[0].geometry.coordinates[i][0], jsonFile.features[0].geometry.coordinates[i][2]];
 		coordinates.push(coordPunkt);
 	}
 	res.json(coordinates);
