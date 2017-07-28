@@ -144,20 +144,23 @@ function fillList(obj) {
 	//OnClick wird an die Liste angehangen,client stellt Anfrage nach dem speziellen Track
 	list.onclick = function (event) {
 		let clickedId = event.target.getAttribute("id");
-		fetch(url + "tracklist/" + clickedId).then(response => {
-			if (response.ok) {
-				return response.json();
-			}
-			else {
-				return null;
-			}
-		}).then(result => {
-			makeCoordinates(result);
-			drawHeightProfile(result);
-			latestResult = result;
-		}).catch(error => {
-			console.error(error.message);
-		});
+		//Wenn man Liste anklickt statt Element,wird Fehler abgefangen
+		if (clickedId !== "list") {
+			fetch(url + "tracklist/" + clickedId).then(response => {
+				if (response.ok) {
+					return response.json();
+				}
+				else {
+					return null;
+				}
+			}).then(result => {
+				makeCoordinates(result);
+				drawHeightProfile(result);
+				latestResult = result;
+			}).catch(error => {
+				console.error(error.message);
+			});
+		}
 	};
 }
 //Client bekommt Koordinaten des Tracks zurück und setzt den Pfad der Polyline und die Grenzen
