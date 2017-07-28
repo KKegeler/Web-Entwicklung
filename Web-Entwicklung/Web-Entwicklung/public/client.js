@@ -2,13 +2,13 @@
 let polyline;
 let entriesPerPage;
 let list = document.getElementById("list");
-//npm modul google-maps einbinden (Wrapper für Google Maps API)
-let GoogleMapsLoader = require("google-maps");
 let previous = document.getElementById("previousPage");
 let next = document.getElementById("nextPage");
 let current = document.getElementById("currentPage");
 let pages = document.getElementById("Pages");
 let url = document.URL;
+//npm modul google-maps einbinden (Wrapper für Google Maps API)
+let GoogleMapsLoader = require("google-maps");
 //API-Key setzen
 GoogleMapsLoader.KEY = "AIzaSyAqOM-iRIWZHE6f5x0wUF7fAFvCPuyKAFY";
 
@@ -54,11 +54,11 @@ function paginate() {
 	let currentPage = parseInt(current.textContent);
 	let children = list.childNodes;
 	let currentPages = Math.floor(children.length / entriesPerPage) + 1;
-
+	//Falls Fenster zu klein -> maximale Seitenzahl = eine Seite pro Route
 	if (currentPages === 67) {
 		currentPages = 65;
 	}
-
+	//Aktuelle Seitenzahl anzeigen
 	pages.innerHTML = currentPages;
 
 	//Nicht benötigte Einträge unsichtbar machen
@@ -66,8 +66,8 @@ function paginate() {
 		let id = children[v].getAttribute("id");
 		let elem = document.getElementById(id);
 		if (v > entriesPerPage) {
+			//Elemente ausblenden
 			elem.style.display = "none";
-			//elemente ausblenden
 		}
 		else {
 			elem.style.display = "block";
@@ -105,32 +105,34 @@ function paginate() {
 //Wenn umgeschaltet wird,sichtbarkeiten umschalten
 function togglePages(currentPage) {
 	let previousPage = currentPage - 1;
+	//von wo bis wo anzeigen
 	let from = (entriesPerPage * previousPage) + 1;
 	let to = currentPage * entriesPerPage;
 	let children = list.childNodes;
-
+	//Alle ausblenden
 	for (let i = 1; i < children.length; i++) {
 		let id = children[i].getAttribute("id");
 		document.getElementById(id).style.display = "none";
 	}
-
+	//Aktuelle Einträge anzeigen
 	for (let i = from; i <= to; i++) {
+		//Für max 65 Einträge
 		if (i <= 65) {
 			let id = children[i].getAttribute("id");
 			document.getElementById(id).style.display = "block";
 		}
 	}
 }
-//Die Einträge pro Seite berechnen,wird am Anfang aufgerufen und bei jedem Reseize
+//Die Einträge pro Seite berechnen,wird am Anfang aufgerufen und bei jedem Resize
 function calculateEntriesPerPage() {
 	let browserHeight = window.innerHeight;
 	//Berechnung durch Höhe des Fensters - Höhe der Pagination div geteilt durch Höhe pro li-Element
 	entriesPerPage = Math.round((browserHeight - 22) / 32);
 	paginate();
 }
-
-let latestId = null;
-//Client bekommt Trackliste und erstellt die Liste
+//Zwischenspeicher letzte angeklickte Route
+let latestResult = null;
+//Erstellen der List-Elemente und Befüllen der Liste
 function fillList(obj) {
 	for (let i = 0; i < obj.names.length; i++) {
 		let li = createNode("li");
@@ -139,8 +141,7 @@ function fillList(obj) {
 		append(list, li);
 	}
 	calculateEntriesPerPage();
-
-	//OnClick wird an die Liste angehangen,client stellt wieder anfrage nach dem speziellen track
+	//OnClick wird an die Liste angehangen,client stellt Anfrage nach dem speziellen Track
 	list.onclick = function (event) {
 		let clickedId = event.target.getAttribute("id");
 		latestId = clickedId;
@@ -154,6 +155,7 @@ function fillList(obj) {
 		}).then(result => {
 			makeCoordinates(result);
 			drawHeightProfile(result);
+			latestResult = result;
 		}).catch(error => {
 			console.error(error.message);
 		});
@@ -269,28 +271,13 @@ function calculateCanvasSize() {
 	myCanvas.height = h / 4.5;
 }
 
-function redraw() {
-	//neu zeichnen
-	if (latestId !== null) {
-		fetch(url + "tracklist/" + latestId).then(response => {
-			if (response.ok) {
-				return response.json();
-			}
-			else {
-				return null;
-			}
-		}).then(result => {
-			drawHeightProfile(result);
-		}).catch(error => {
-			console.error(error.message);
-		});
-	}
-}
-
 //Listener für Änderung der Fenstergröße
 window.addEventListener("resize", resizeActions);
 function resizeActions() {
 	current.innerHTML = 1;
 	calculateEntriesPerPage();
-	redraw();
+	if (latestResult !== null) {
+		makeCoordinates(latestResult);
+		drawHeightProfile(latestResult)
+	}
 }

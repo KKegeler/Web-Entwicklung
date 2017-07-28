@@ -1,3 +1,4 @@
+//Farben-Variablen
 @list-background: white;
 @pagination-background: darkorange;
 @li-background: darken(@list-background, 20%);
@@ -13,12 +14,14 @@ body {
 #wrapper {
 	position: relative;
 
+  //Google-Map
   #map {
     width: 70%;
-    height: 100vh;
+    height: 100%;
     z-index: 0;
   }
 
+  //Höhenprofil fest in unteren linken Ecke
   #heightProfile {
     position: absolute;
     bottom: 10px;
@@ -27,6 +30,7 @@ body {
   }
 }
 
+//Pagination fest am oberen rechten Rand
 #pagination {
   width: 30%;
   height: 22px;
@@ -41,6 +45,7 @@ body {
       border: solid @arrow;
       .arrow;
 
+      //Aufbau Pfeil Grundlage
       .arrow {
         border-width: 0 3px 3px 0;
         display: inline-block;
@@ -48,24 +53,25 @@ body {
         margin: 5px;
       }
 
+      //Pfeil ändert Farbe bei hover
       &:hover {
         border: solid @arrow-hover;
         .arrow;
       }
 
+      //Element drehen, sodass Pfeile nach links und rechts entstehen
       &#left {
         transform: rotate(135deg);
         -webkit-transform: rotate(135deg);
         margin-left: 5px;
       }
-
       &#right {
         transform: rotate(-45deg);
         -webkit-transform: rotate(-45deg);
       }
     }
   }
-
+  //Seitenzahlen rechts in Pagination Box
   #pageNumbers {
     float: right;
     position: fixed;
@@ -90,13 +96,18 @@ body {
     margin: 0;
     padding: 0;
 
+    //List-Elemente
     li {
+      //Kein scrollen wenn Inhalt nicht genug Platz in Box
       overflow:hidden;
+      //... an Ende von Text, falls nicht genug Platz in Box
       text-overflow:ellipsis;
+      //Text bleibt in einer Linie
       white-space:nowrap;
       height: 30px;
       background: @li-background;
       margin-bottom: 2px;
+      //Text mittig in Box
       line-height: 30px;
       padding-left: 4px;
 
