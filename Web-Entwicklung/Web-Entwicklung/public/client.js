@@ -144,7 +144,6 @@ function fillList(obj) {
 	//OnClick wird an die Liste angehangen,client stellt Anfrage nach dem speziellen Track
 	list.onclick = function (event) {
 		let clickedId = event.target.getAttribute("id");
-		latestId = clickedId;
 		fetch(url + "tracklist/" + clickedId).then(response => {
 			if (response.ok) {
 				return response.json();
@@ -278,6 +277,6 @@ function resizeActions() {
 	calculateEntriesPerPage();
 	if (latestResult !== null) {
 		makeCoordinates(latestResult);
-		drawHeightProfile(latestResult)
+		drawHeightProfile(latestResult);
 	}
 }
