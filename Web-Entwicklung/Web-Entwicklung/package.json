@@ -17,7 +17,7 @@
     "google-maps": "latest"
   },
   "scripts": {
-    "lint": "eslint ./javascript/*",
+    "lint": "eslint ./javascript/* && eslint ./server.js",
     "browserify": "browserify ./javascript/client.js > ./public/generated/main.js",
     "minify": "babili ./public/generated/mainB.js > ./public/generated/main.js",
     "lessc": "lessc --clean-css ./public/style.less ./public/generated/style.min.css",

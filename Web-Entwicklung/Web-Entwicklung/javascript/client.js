@@ -36,7 +36,7 @@ fetch(url + "tracklist").then(response => {
 		return null;
 	}
 }).then(result => {
-	latestResult = pagination.fillList(result);
+	pagination.fillList(result);
 }).catch(error => {
 	console.error(error.message);
 });

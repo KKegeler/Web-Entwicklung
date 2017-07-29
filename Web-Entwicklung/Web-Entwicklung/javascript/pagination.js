@@ -4,7 +4,6 @@ let current = document.getElementById("currentPage");
 let pages = document.getElementById("Pages");
 let list = document.getElementById("list");
 let entriesPerPage;
-let latestResult = null;
 
 //Erstellen der List-Elemente und Befüllen der Liste
 let fillList = function (obj) {
@@ -15,7 +14,6 @@ let fillList = function (obj) {
 		list.appendChild(li);
 	}
 	calculateEntriesPerPage();
-	return latestResult;
 };
 //Die Einträge pro Seite berechnen,wird am Anfang aufgerufen und bei jedem Resize
 let calculateEntriesPerPage = function () {
