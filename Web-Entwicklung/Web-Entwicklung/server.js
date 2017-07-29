@@ -20,14 +20,8 @@ else {
 	server.listen(8080);
 	portnumber = 8080;
 }
-//Liefert statische Dateien aus Ordner public
+//Liefert statische Dateien aus Ordner public/generated
 app.use(express.static(__dirname + "/public/generated"));
-
-//Wenn der Pfad / aufgerufen wird
-app.get("/", function (req, res) {
-	//So wird die Datei index.html ausgegeben
-	res.sendfile(__dirname + "/public/generated/index.html");
-});
 
 //Wenn /tracklist aufgerufen wird alle Dateien im Ordner durchgehen und die Tracknamen zurueckliefern
 app.get("/tracklist", function (req, res) {

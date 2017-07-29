@@ -15,7 +15,6 @@ let fillList = function (obj) {
 		list.appendChild(li);
 	}
 	calculateEntriesPerPage();
-	//OnClick wird an die Liste angehangen,client stellt Anfrage nach dem speziellen Track
 	return latestResult;
 };
 //Die Einträge pro Seite berechnen,wird am Anfang aufgerufen und bei jedem Resize
@@ -31,7 +30,6 @@ function paginate() {
 	//benötigte Werte holen
 	let currentPage = parseInt(current.textContent);
 	let children = list.childNodes;
-	console.log("list childnodes: " + children);
 	let currentPages = Math.ceil((children.length - 1) / entriesPerPage);
 	//Falls Fenster zu klein -> maximale Seitenzahl = eine Seite pro Route
 	if (currentPages > 65) {

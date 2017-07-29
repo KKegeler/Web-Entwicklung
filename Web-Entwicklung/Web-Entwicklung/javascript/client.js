@@ -36,14 +36,13 @@ fetch(url + "tracklist").then(response => {
 		return null;
 	}
 }).then(result => {
-	latestResult = pagination.fillList(result, GoogleMapsLoader, map, polyline);
+	latestResult = pagination.fillList(result);
 }).catch(error => {
 	console.error(error.message);
 });
 
-//Liste onclick-Listener
+//OnClick wird an die Liste angehangen,client stellt Anfrage nach dem speziellen Track
 list.onclick = function (event) {
-	console.log("onclick");
 	let clickedId = event.target.getAttribute("id");
 	//Wenn man Liste anklickt statt Element,wird Fehler abgefangen
 	if (clickedId !== "list") {
