@@ -53,9 +53,9 @@ function paginate() {
 	//benötigte Werte holen
 	let currentPage = parseInt(current.textContent);
 	let children = list.childNodes;
-	let currentPages = Math.floor(children.length / entriesPerPage) + 1;
+	let currentPages = Math.ceil((children.length - 1) / entriesPerPage);
 	//Falls Fenster zu klein -> maximale Seitenzahl = eine Seite pro Route
-	if (currentPages === 67) {
+	if (currentPages > 65) {
 		currentPages = 65;
 	}
 	//Aktuelle Seitenzahl anzeigen
